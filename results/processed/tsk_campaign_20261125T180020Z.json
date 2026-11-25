@@ -1,0 +1,1255 @@
+[
+  {
+    "case": "L1_fast",
+    "create_http": 202,
+    "task_id": "task_d28b93b948ce487f9901691837082326",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output_text": "{\"upc\":\"e00eb4fd7b871a48\"}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.004989,
+        "total_usd": 0.005322,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 3,
+      "cost_usd": 0.004989,
+      "model_calls": 4,
+      "input_tokens": 23723,
+      "output_tokens": 576,
+      "browser_minutes": 0.3,
+      "browser_seconds": 18,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 14996
+    },
+    "cost_usd": 0.005322,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.21,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 19.0,
+        "status": "completed",
+        "cost": 0.005322,
+        "steps": 3
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:00:21.143389+00:00",
+      "started_at": "2026-11-25T18:00:21.162538+00:00",
+      "finished_at": "2026-11-25T18:00:39.788445+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629621.2317593,
+    "files": {
+      "list_http": 200,
+      "n_files": 2,
+      "download_http": 200,
+      "download_bytes": 221022,
+      "listed_bytes": 221022,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "L3_fast",
+    "create_http": 202,
+    "task_id": "task_3c922e67a2104ff2bec746fe2e757bb8",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": "e00eb4fd7b871a48",
+      "in_stock": 20,
+      "reviews": 0
+    },
+    "output": {
+      "upc": "e00eb4fd7b871a48",
+      "reviews": 0,
+      "in_stock": 20
+    },
+    "output_text": "{\"upc\":\"e00eb4fd7b871a48\",\"in_stock\":20,\"reviews\":0}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true,
+        "in_stock": true,
+        "reviews": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.005619,
+        "total_usd": 0.005952,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 2,
+      "cost_usd": 0.005619,
+      "model_calls": 3,
+      "input_tokens": 12231,
+      "output_tokens": 600,
+      "browser_minutes": 0.27,
+      "browser_seconds": 16,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 4178
+    },
+    "cost_usd": 0.005952,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.1,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 18.81,
+        "status": "completed",
+        "cost": 0.005952,
+        "steps": 2
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:00:40.831220+00:00",
+      "started_at": "2026-11-25T18:00:40.843804+00:00",
+      "finished_at": "2026-11-25T18:00:57.927500+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629640.898124,
+    "files": {
+      "list_http": 200,
+      "n_files": 1,
+      "download_http": 200,
+      "download_bytes": 249664,
+      "listed_bytes": 249664,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "L1_balanced",
+    "create_http": 202,
+    "task_id": "task_ef59604b325b41dc80196c296511799a",
+    "create_error": null,
+    "model": "moss-balanced",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output_text": "Source: [Sharp Objects](https://books.toscrape.com/catalogue/sharp-objects_997/index.html)\n\n{\"upc\":\"e00eb4fd7b871a48\"}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.052642,
+        "total_usd": 0.052975,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 3,
+      "cost_usd": 0.052642,
+      "model_calls": 4,
+      "input_tokens": 32508,
+      "output_tokens": 303,
+      "browser_minutes": 0.25,
+      "browser_seconds": 15,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 16256
+    },
+    "cost_usd": 0.052975,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 15.69,
+        "status": "completed",
+        "cost": 0.052975,
+        "steps": 3
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:01:00.429913+00:00",
+      "started_at": "2026-11-25T18:01:00.446216+00:00",
+      "finished_at": "2026-11-25T18:01:16.119248+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629660.5125537,
+    "files": {
+      "list_http": 200,
+      "n_files": 2,
+      "download_http": 200,
+      "download_bytes": 577355,
+      "listed_bytes": 577355,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "L3_balanced",
+    "create_http": 202,
+    "task_id": "task_c845d2acdf1f42bab5aef87e806dfcde",
+    "create_error": null,
+    "model": "moss-balanced",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": "e00eb4fd7b871a48",
+      "in_stock": 20,
+      "reviews": 0
+    },
+    "output": {
+      "upc": "e00eb4fd7b871a48",
+      "reviews": 0,
+      "in_stock": 20
+    },
+    "output_text": "{\"upc\":\"e00eb4fd7b871a48\",\"in_stock\":20,\"reviews\":0}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true,
+        "in_stock": true,
+        "reviews": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.048807,
+        "total_usd": 0.04914,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 3,
+      "cost_usd": 0.048807,
+      "model_calls": 4,
+      "input_tokens": 41774,
+      "output_tokens": 377,
+      "browser_minutes": 0.73,
+      "browser_seconds": 44,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 27538
+    },
+    "cost_usd": 0.04914,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.24,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 47.27,
+        "status": "completed",
+        "cost": 0.04914,
+        "steps": 3
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:01:16.728773+00:00",
+      "started_at": "2026-11-25T18:01:16.745131+00:00",
+      "finished_at": "2026-11-25T18:02:01.431804+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629676.806122,
+    "files": {
+      "list_http": 200,
+      "n_files": 1,
+      "download_http": 200,
+      "download_bytes": 577355,
+      "listed_bytes": 577355,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "L2_fast",
+    "create_http": 202,
+    "task_id": "task_69740da562fc4a4fb62cf4da0773137c",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "price": "\u00a348.87"
+    },
+    "output": {
+      "price": "\u00a348.87"
+    },
+    "output_text": "{\"price\":\"\u00a348.87\"}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "price": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.005058,
+        "total_usd": 0.005391,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 3,
+      "cost_usd": 0.005058,
+      "model_calls": 4,
+      "input_tokens": 17574,
+      "output_tokens": 704,
+      "browser_minutes": 0.37,
+      "browser_seconds": 22,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 9573
+    },
+    "cost_usd": 0.005391,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.11,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 25.0,
+        "status": "completed",
+        "cost": 0.005391,
+        "steps": 3
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:02:05.045465+00:00",
+      "started_at": "2026-11-25T18:02:05.063219+00:00",
+      "finished_at": "2026-11-25T18:02:27.917584+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629725.1262689,
+    "files": {
+      "list_http": 200,
+      "n_files": 2,
+      "download_http": 200,
+      "download_bytes": 654777,
+      "listed_bytes": 654777,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "L4_fast",
+    "create_http": 202,
+    "task_id": "task_918215c4f8384ef7b8f7b44e4497d505",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": "1dfe412b8ac00530"
+    },
+    "output": {
+      "upc": "1dfe412b8ac00530"
+    },
+    "output_text": "{\"upc\":\"1dfe412b8ac00530\"}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.004779,
+        "total_usd": 0.005112,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 3,
+      "cost_usd": 0.004779,
+      "model_calls": 4,
+      "input_tokens": 18526,
+      "output_tokens": 714,
+      "browser_minutes": 0.29,
+      "browser_seconds": 17,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 9967
+    },
+    "cost_usd": 0.005112,
+    "limits": {
+      "max_runtime_seconds": 180,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 18.81,
+        "status": "completed",
+        "cost": 0.005112,
+        "steps": 3
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:02:30.927899+00:00",
+      "started_at": "2026-11-25T18:02:30.942619+00:00",
+      "finished_at": "2026-11-25T18:02:48.645231+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629751.008906,
+    "files": {
+      "list_http": 200,
+      "n_files": 2,
+      "download_http": 200,
+      "download_bytes": 230509,
+      "listed_bytes": 230509,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "L5_fast",
+    "create_http": 202,
+    "task_id": "task_17cebf75261a4c3983332fd32950873c",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "count": 7
+    },
+    "output": {
+      "count": 7
+    },
+    "output_text": "{\"count\":7}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "count": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.006777,
+        "total_usd": 0.00711,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 3,
+      "cost_usd": 0.006777,
+      "model_calls": 4,
+      "input_tokens": 27279,
+      "output_tokens": 927,
+      "browser_minutes": 0.31,
+      "browser_seconds": 19,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 17597
+    },
+    "cost_usd": 0.00711,
+    "limits": {
+      "max_runtime_seconds": 240,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 21.94,
+        "status": "completed",
+        "cost": 0.00711,
+        "steps": 3
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:02:50.275563+00:00",
+      "started_at": "2026-11-25T18:02:50.288722+00:00",
+      "finished_at": "2026-11-25T18:03:09.622154+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629770.3545835,
+    "files": {
+      "list_http": 200,
+      "n_files": 2,
+      "download_http": 200,
+      "download_bytes": 594168,
+      "listed_bytes": 594168,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "A1_fast",
+    "create_http": 202,
+    "task_id": "task_e8a7ec7e6c5941e59cdfd34cc338308b",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "isbn": null,
+      "found": false
+    },
+    "output": {
+      "isbn": null,
+      "found": false
+    },
+    "output_text": "{\"isbn\":null,\"found\":false}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "isbn": true,
+        "found": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.00571,
+        "total_usd": 0.006043,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 2,
+      "cost_usd": 0.00571,
+      "model_calls": 3,
+      "input_tokens": 18467,
+      "output_tokens": 538,
+      "browser_minutes": 0.25,
+      "browser_seconds": 15,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 10049
+    },
+    "cost_usd": 0.006043,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 15.82,
+        "status": "completed",
+        "cost": 0.006043,
+        "steps": 2
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:03:13.182282+00:00",
+      "started_at": "2026-11-25T18:03:13.201641+00:00",
+      "finished_at": "2026-11-25T18:03:28.947371+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629793.2669575,
+    "files": {
+      "list_http": 200,
+      "n_files": 1,
+      "download_http": 200,
+      "download_bytes": 573287,
+      "listed_bytes": 573287,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "F1_fast",
+    "create_http": 202,
+    "task_id": "task_a8c60d11d9a14a6cb63ed60a14ad99ff",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": null,
+      "found": false
+    },
+    "output": {
+      "upc": null,
+      "found": false
+    },
+    "output_text": "{\"upc\":null,\"found\":false}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true,
+        "found": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.00629,
+        "total_usd": 0.006623,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 2,
+      "cost_usd": 0.00629,
+      "model_calls": 3,
+      "input_tokens": 22646,
+      "output_tokens": 600,
+      "browser_minutes": 0.29,
+      "browser_seconds": 17,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 12126
+    },
+    "cost_usd": 0.006623,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 18.94,
+        "status": "completed",
+        "cost": 0.006623,
+        "steps": 2
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:03:29.842435+00:00",
+      "started_at": "2026-11-25T18:03:29.863278+00:00",
+      "finished_at": "2026-11-25T18:03:47.762006+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629809.9293833,
+    "files": {
+      "list_http": 200,
+      "n_files": 2,
+      "download_http": 200,
+      "download_bytes": 86547,
+      "listed_bytes": 86547,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "R1_fast",
+    "create_http": 202,
+    "task_id": "task_7505e783d7ba44e39328da84ffed0425",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output_text": "{\"upc\":\"e00eb4fd7b871a48\"}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.004359,
+        "total_usd": 0.004692,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 2,
+      "cost_usd": 0.004359,
+      "model_calls": 3,
+      "input_tokens": 11692,
+      "output_tokens": 440,
+      "browser_minutes": 0.21,
+      "browser_seconds": 13,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 4136
+    },
+    "cost_usd": 0.004692,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.45,
+        "status": "running",
+        "cost": 0.0,
+        "steps": 0
+      },
+      {
+        "t_s": 16.04,
+        "status": "completed",
+        "cost": 0.004692,
+        "steps": 2
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:03:49.259280+00:00",
+      "started_at": "2026-11-25T18:03:49.270933+00:00",
+      "finished_at": "2026-11-25T18:04:02.525998+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629829.336385,
+    "files": {
+      "list_http": 200,
+      "n_files": 1,
+      "download_http": 200,
+      "download_bytes": 577355,
+      "listed_bytes": 577355,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "R2_fast",
+    "create_http": 202,
+    "task_id": "task_183ea1fee5394f1b942ea8ab2d33b6b7",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output": {
+      "upc": "e00eb4fd7b871a48"
+    },
+    "output_text": "{\"upc\":\"e00eb4fd7b871a48\"}",
+    "score": {
+      "all_correct": true,
+      "fields": {
+        "upc": true
+      }
+    },
+    "local_schema_ok": true,
+    "verification": {
+      "method": "output_schema",
+      "passed": true
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.00679,
+        "total_usd": 0.007123,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 3,
+      "cost_usd": 0.00679,
+      "model_calls": 7,
+      "input_tokens": 35979,
+      "output_tokens": 1270,
+      "browser_minutes": 0.34,
+      "browser_seconds": 20,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 18811
+    },
+    "cost_usd": 0.007123,
+    "limits": {
+      "max_runtime_seconds": 120,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 21.93,
+        "status": "completed",
+        "cost": 0.007123,
+        "steps": 3
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:04:05.843588+00:00",
+      "started_at": "2026-11-25T18:04:05.853004+00:00",
+      "finished_at": "2026-11-25T18:04:26.677407+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629845.9191847,
+    "files": {
+      "list_http": 200,
+      "n_files": 1,
+      "download_http": 200,
+      "download_bytes": 577355,
+      "listed_bytes": 577355,
+      "content_type": "image/png",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "C1_fast",
+    "create_http": 202,
+    "task_id": "task_7e9e2c95665440e08db164cc29b195e4",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "failed",
+    "error": {
+      "code": "budget_exceeded",
+      "message": "Spent $0.01"
+    },
+    "cancel_requested": false,
+    "expect": "budget_exceeded",
+    "truth": null,
+    "output": null,
+    "output_text": null,
+    "score": null,
+    "local_schema_ok": null,
+    "verification": null,
+    "usage": {
+      "cost": {
+        "model_usd": 0.010012,
+        "total_usd": 0.010345,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 6,
+      "cost_usd": 0.010012,
+      "model_calls": 12,
+      "input_tokens": 56611,
+      "output_tokens": 3358,
+      "browser_minutes": 0.76,
+      "browser_seconds": 46,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 38844
+    },
+    "cost_usd": 0.010345,
+    "limits": {
+      "max_runtime_seconds": 300,
+      "max_cost_usd": 0.01
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 46.87,
+        "status": "failed",
+        "cost": 0.010345,
+        "steps": 6
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:04:28.272409+00:00",
+      "started_at": "2026-11-25T18:04:28.288254+00:00",
+      "finished_at": "2026-11-25T18:05:14.771016+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629868.3480742,
+    "files": {
+      "list_http": 200,
+      "n_files": 4,
+      "download_http": 200,
+      "download_bytes": 1686,
+      "listed_bytes": 1686,
+      "content_type": "text/csv; charset=utf-8",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "T1_fast",
+    "create_http": 202,
+    "task_id": "task_a92f2ebbcd94412f96b7f8f201bb4a66",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "completed",
+    "error": null,
+    "cancel_requested": false,
+    "expect": "time_limit",
+    "truth": null,
+    "output": null,
+    "output_text": "Collected **32 books** across both Mystery category pages and read each book\u2019s title and UPC from its detail page.\n\n[Download the CSV](outputs/mystery_books.csv)\n\n| Title | UPC |\n|---|---|\n| Sharp Objects | e00eb4fd7b871a48 |\n| In a Dark, Dark Wood | 19ed25f4641d5efd |\n| The Past Never Ends | 5ee94540d0749ea0 |\n| A Murder in Time | f733e8c19d40ec2e |\n| The Murder of Roger Ackroyd (Hercule Poirot #4) | c7b5183f4d1d4efe |\n| The Last Mile (Amos Decker #2) | 3bc89353f7e3a3cc |\n| That Darkness (Gardiner and Renner #1) | 0c7b9cf2b7662b65 |\n| Tastes Like Fear (DI Marnie Rome #3) | 2d1e337aaf341858 |\n| A Time of Torment (Charlie Parker #14) | 4416c474713ec1f5 |\n| A Study in Scarlet (Sherlock Holmes #1) | 63ee5bc46066a8a8 |\n| Poisonous (Max Revere Novels #3) | abdd91e96515a617 |\n| Murder at the 42nd Street Library (Raymond Ambler #1) | e7fe3bf2768602cf |\n| Most Wanted | c039f5aceb093537 |\n| Hide Away (Eve Duncan #20) | bddc6fd036eb6279 |\n| Boar Island (Anna Pigeon #19) | 49b24c6a41b82bd2 |\n| The Widow | 6159d8b187831770 |\n| Playing with Fire | 05a61a3bd8ca4149 |\n| What Happened on Beale Street (Secrets of the South Mysteries #2) | 9735c969c652dd89 |\n| The Bachelor Girl's Guide to Murder (Herringford and Watts Mysteries #1) | 20789fb17b423c4c |\n| Delivering the Truth (Quaker Midwife Mystery #1) | 4e980425468708da |\n| The Mysterious Affair at Styles (Hercule Poirot #1) | 2da5edf8b5776c9a |\n| In the Woods (Dublin Murder Squad #1) | 6958de044cb28a84 |\n| The Silkworm (Cormoran Strike #2) | f06039c29b5891fa |\n| The Exiled | dd003e904727281a |\n| The Cuckoo's Calling (Cormoran Strike #1) | 1be6d3b121865edb |\n| Extreme Prey (Lucas Davenport #26) | 588ba85ff11a3263 |\n| Career of Evil (Cormoran Strike #3) | b461cf238506c5b8 |\n| The No. 1 Ladies' Detective Agency (No. 1 Ladies' Detective Agency #1) | b0913e67d38d5ed5 |\n| The Girl You Lost | 4280ac3eab57aa5d |\n| The Girl In The Ice (DCI Erika Foster #1) | ee61197edb882599 |\n| Blood Defense (Samantha Brinkman #1) | 95cdfd514098c38b |\n| 1st to Die (Women's Murder Club #1) | f684a82adc49f011 |",
+    "score": null,
+    "local_schema_ok": null,
+    "verification": {
+      "method": "agent_reported",
+      "passed": null
+    },
+    "usage": {
+      "cost": {
+        "model_usd": 0.012286,
+        "total_usd": 0.012619,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 8,
+      "cost_usd": 0.012286,
+      "model_calls": 18,
+      "input_tokens": 117727,
+      "output_tokens": 3949,
+      "browser_minutes": 0.82,
+      "browser_seconds": 49,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 93060
+    },
+    "cost_usd": 0.012619,
+    "limits": {
+      "max_runtime_seconds": 60,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 50.2,
+        "status": "completed",
+        "cost": 0.012619,
+        "steps": 8
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:05:15.581248+00:00",
+      "started_at": "2026-11-25T18:05:15.604341+00:00",
+      "finished_at": "2026-11-25T18:06:05.863597+00:00"
+    },
+    "files_while_running": {
+      "http": 409,
+      "status_then": "running",
+      "error": {
+        "message": "The task's files are served once it has finished",
+        "type": "invalid_request_error",
+        "code": "task_not_finished",
+        "request_id": "8dd388d7afc04c6096e4bd44325f1ec8"
+      }
+    },
+    "t_wait_start": 1795629915.9129894,
+    "files": {
+      "list_http": 200,
+      "n_files": 5,
+      "download_http": 200,
+      "download_bytes": 1684,
+      "listed_bytes": 1684,
+      "content_type": "text/csv; charset=utf-8",
+      "bytes_match": true
+    }
+  },
+  {
+    "case": "X1_fast",
+    "create_http": 202,
+    "task_id": "task_7ed724278e8a41699ed7d859c48d99e1",
+    "create_error": null,
+    "model": "moss-fast",
+    "status": "cancelled",
+    "error": null,
+    "cancel_requested": false,
+    "expect": null,
+    "truth": null,
+    "output": null,
+    "output_text": null,
+    "score": null,
+    "local_schema_ok": null,
+    "verification": null,
+    "usage": {
+      "cost": {
+        "model_usd": 0.0,
+        "total_usd": 0.000333,
+        "browser_usd": 0.0003333333333333333,
+        "traffic_usd": null
+      },
+      "steps": 0,
+      "cost_usd": 0.0,
+      "model_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "browser_minutes": 0.04,
+      "browser_seconds": 2,
+      "browser_traffic_mb": null,
+      "cached_input_tokens": 0
+    },
+    "cost_usd": 0.000333,
+    "limits": {
+      "max_runtime_seconds": 300,
+      "max_cost_usd": 0.05
+    },
+    "trace": [
+      {
+        "t_s": 0.12,
+        "status": "running",
+        "cost": null,
+        "steps": null
+      },
+      {
+        "t_s": 0.25,
+        "cancel_http": 200,
+        "cancel_body": {
+          "id": "task_7ed724278e8a41699ed7d859c48d99e1",
+          "object": "task",
+          "status": "running",
+          "title": null,
+          "goal": "Open every book in the Mystery category, on all of its pages, one by one, and report each book's title and UPC.",
+          "environment": {
+            "type": "browser",
+            "start_url": "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html"
+          },
+          "output_schema": null,
+          "limits": {
+            "max_cost_usd": 0.05,
+            "max_runtime_seconds": 300
+          },
+          "model": "moss-fast",
+          "effort": "low",
+          "metadata": {
+            "audit": "TSK"
+          },
+          "byok": false,
+          "result": null,
+          "verification": null,
+          "usage": null,
+          "error": null,
+          "trace_available": false,
+          "video_available": false,
+          "video_state": null,
+          "live_url": null,
+          "cancel_requested": true,
+          "created_at": "2026-11-25T18:06:06.472904+00:00",
+          "started_at": "2026-11-25T18:06:06.487561+00:00",
+          "finished_at": null,
+          "files_expire_at": null,
+          "zero_data_retention": false,
+          "content_expires_at": null,
+          "content_deleted_at": null,
+          "webhook": null
+        }
+      },
+      {
+        "t_s": 3.36,
+        "status": "cancelled",
+        "cost": 0.000333,
+        "steps": 0
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-11-25T18:06:06.472904+00:00",
+      "started_at": "2026-11-25T18:06:06.487561+00:00",
+      "finished_at": "2026-11-25T18:06:09.331752+00:00"
+    },
+    "files_while_running": null,
+    "t_wait_start": 1795629966.5534186,
+    "files": {
+      "list_http": 200,
+      "n_files": 0
+    }
+  },
+  {
+    "case": "X2",
+    "task_id": "task_d28b93b948ce487f9901691837082326",
+    "cancel_http": 200,
+    "valid_reply": true,
+    "before": {
+      "status": "completed",
+      "finished_at": "2026-11-25T18:00:39.788445+00:00",
+      "cancel_requested": false
+    },
+    "after": {
+      "status": "completed",
+      "finished_at": "2026-11-25T18:00:39.788445+00:00",
+      "cancel_requested": false
+    },
+    "unchanged": true,
+    "cost_before": 0.005322,
+    "cost_after": 0.005322,
+    "error": null
+  },
+  {
+    "case": "I1",
+    "key": "audit-idem-64c64288-f018-4cbf-8d80-3e702de4edc8",
+    "first": {
+      "http": 202,
+      "id": "task_885ea3a3fc3049e68dd09170c14b34de",
+      "replayed": null
+    },
+    "replay": {
+      "http": 202,
+      "id": "task_885ea3a3fc3049e68dd09170c14b34de",
+      "same_id": true,
+      "replayed": "true",
+      "status": "running",
+      "error": null
+    },
+    "other_body": {
+      "http": 422,
+      "id": null,
+      "same_id": false,
+      "replayed": null,
+      "status": null,
+      "error": {
+        "message": "This Idempotency-Key was sent with another body. Send a new key for a new task",
+        "type": "invalid_request_error",
+        "code": "idempotency_key_reused",
+        "request_id": "194e156cfa0149f89b2412cb8c23982b"
+      }
+    },
+    "first_final": {
+      "status": "completed",
+      "cost": 0.005228,
+      "score": {
+        "all_correct": true,
+        "fields": {
+          "upc": true
+        }
+      }
+    },
+    "replay_after_finish": {
+      "http": 202,
+      "id": "task_885ea3a3fc3049e68dd09170c14b34de",
+      "same_id": true,
+      "replayed": "true",
+      "status": "completed",
+      "error": null
+    },
+    "pair": {
+      "http": [
+        202,
+        202
+      ],
+      "ids": [
+        "task_9055fa9462d543a690373889b8245a28",
+        "task_9055fa9462d543a690373889b8245a28"
+      ],
+      "replayed": [
+        null,
+        "true"
+      ],
+      "errors": [],
+      "distinct_tasks": 1
+    }
+  }
+]

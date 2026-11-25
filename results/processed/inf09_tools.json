@@ -1,0 +1,336 @@
+[
+  {
+    "p": "o0",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_3d39949891984e83a9295693e2249daa_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-b6f523a3c35fd2fc",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"K7Q-3814\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Order K7Q-3814 has shipped via Quillfast, with tracking reference **TRK-7Q4M**."
+  },
+  {
+    "p": "o1",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_ab9bc0c725db4eb29bc86a27d247d406_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-ba2396b367d3705a",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"ZT-90215\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Your order ZT-90215 is being delivered via Quillfast. The tracking reference is **TRK-B2XW**."
+  },
+  {
+    "p": "o2",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "I'll look up your order for you.\n\n",
+    "call": {
+      "id": "fc_f1e89f30f6e4419a885a150a944a6a05_1",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-b3caf0bacec891d8",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"A1B2-77\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Your order A1B2-77 has been shipped via Quillfast. Your tracking reference is **TRK-9HJD**."
+  },
+  {
+    "p": "o3",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_6f49ea56414c4142993b2ebd64e0d5ad_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-8c14c1125678ae1e",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"QX-4410-M\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Your order QX-4410-M has shipped via Quillfast. Tracking reference: TRK-K3VZ."
+  },
+  {
+    "p": "o4",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_7582cc784bdf42bc8cc95b3b42bb13c1_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-996f924dd825faee",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"RR-0057\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Your order RR-0057 has shipped via Quillfast. The tracking reference is **TRK-P8RN**."
+  },
+  {
+    "p": "o5",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_9cea76b7b7ce46b39313a480922509f8_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-b87c67345e86cc85",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"LM-8823\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Order LM-8823 is on its way \u2014 it has been shipped via Quillfast. Your tracking reference is TRK-W5LC."
+  },
+  {
+    "p": "o6",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_deaa2e489168416195043caa7d63b947_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-991bfd89a6151d31",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"P-31416\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Order P-31416 is out for delivery via Quillfast. Tracking reference: TRK-F6TY."
+  },
+  {
+    "p": "o7",
+    "path": "raw",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_4fc8e696b4b24569be7df3a481b8f0e0_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-83b7021b61fc8caa",
+      "name": "lookup_order",
+      "arguments": "{\"id\": \"VX-2207\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Your order VX-2207 has been shipped via Quillfast. The tracking reference is TRK-M1QG."
+  },
+  {
+    "p": "w0",
+    "path": "raw",
+    "expected_tool": "get_weather",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_09ba7db899fe4811be51643d3049ce31_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-8d03f9f65960a6e6",
+      "name": "get_weather",
+      "arguments": "{\"city\": \"Brellmouth\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Brellmouth: light rain, station code WX-4821."
+  },
+  {
+    "p": "w1",
+    "path": "raw",
+    "expected_tool": "get_weather",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_fbdf73b227c548f9a287f938dc8c038c_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-b11601ff9069269a",
+      "name": "get_weather",
+      "arguments": "{\"city\": \"Ostravane\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Ostravane: light rain. Station code: WX-0937."
+  },
+  {
+    "p": "w2",
+    "path": "raw",
+    "expected_tool": "get_weather",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_7bcf109228e24e0a8bbdaec4b5973407_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-bb48a5704c1561e0",
+      "name": "get_weather",
+      "arguments": "{\"city\": \"Kilderwick\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "It's light rain in Kilderwick right now. Station code: WX-5564."
+  },
+  {
+    "p": "w3",
+    "path": "raw",
+    "expected_tool": "get_weather",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_26e94e3124ca4f48851413e5ca965387_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-96009f80b1a25c6d",
+      "name": "get_weather",
+      "arguments": "{\"city\": \"Saffrona\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "It's currently light rain in Saffrona. Station code: WX-7102."
+  },
+  {
+    "p": "w4",
+    "path": "raw",
+    "expected_tool": "get_weather",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_0ddfb26de7e842fbb4d7e5f748a04468_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-9d82661cddc75bf9",
+      "name": "get_weather",
+      "arguments": "{\"city\": \"Thornmere\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "Light rain in Thornmere. Station code: WX-3388."
+  },
+  {
+    "p": "w5",
+    "path": "raw",
+    "expected_tool": "get_weather",
+    "round1": "correct_call",
+    "round1_status": 200,
+    "round1_text": "",
+    "call": {
+      "id": "fc_952529e39e424a5fb9730f5e379c90be_0",
+      "type": "function_call",
+      "status": "completed",
+      "call_id": "chatcmpl-tool-84223afaf06ec259",
+      "name": "get_weather",
+      "arguments": "{\"city\": \"Duvallen\"}"
+    },
+    "round2": "uses_result",
+    "final_text": "It's currently light rain in Duvallen. Station code: WX-9045."
+  },
+  {
+    "p": "n0",
+    "path": "raw",
+    "expected_tool": null,
+    "round1": "correct_no_call",
+    "round1_status": 200,
+    "round1_text": "7 \u00d7 8 = **56**.",
+    "call": null,
+    "round2": null,
+    "final_text": null
+  },
+  {
+    "p": "n1",
+    "path": "raw",
+    "expected_tool": null,
+    "round1": "correct_no_call",
+    "round1_status": 200,
+    "round1_text": "Bonjour ! \ud83d\udc4b",
+    "call": null,
+    "round2": null,
+    "final_text": null
+  },
+  {
+    "p": "n2",
+    "path": "raw",
+    "expected_tool": null,
+    "round1": "correct_no_call",
+    "round1_status": 200,
+    "round1_text": "A ripe banana is typically yellow. As it ripens further, it may develop brown spots or a brownish tint, but the classic color of a ripe banana is yellow.",
+    "call": null,
+    "round2": null,
+    "final_text": null
+  },
+  {
+    "p": "n3",
+    "path": "raw",
+    "expected_tool": null,
+    "round1": "correct_no_call",
+    "round1_status": 200,
+    "round1_text": "The word \"cat\" spelled backwards is **tac**.",
+    "call": null,
+    "round2": null,
+    "final_text": null
+  },
+  {
+    "p": "n4",
+    "path": "raw",
+    "expected_tool": null,
+    "round1": "correct_no_call",
+    "round1_status": 200,
+    "round1_text": "There are 7 days in a week.",
+    "call": null,
+    "round2": null,
+    "final_text": null
+  },
+  {
+    "p": "n5",
+    "path": "raw",
+    "expected_tool": null,
+    "round1": "correct_no_call",
+    "round1_status": 200,
+    "round1_text": "The capital of Italy is Rome.",
+    "call": null,
+    "round2": null,
+    "final_text": null
+  },
+  {
+    "p": "o0",
+    "path": "sdk",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round2": "uses_result",
+    "final_text": "Your order K7Q-3814 has shipped via Quillfast. The tracking reference is TRK-7Q4M."
+  },
+  {
+    "p": "o1",
+    "path": "sdk",
+    "expected_tool": "lookup_order",
+    "round1": "correct_call",
+    "round2": "uses_result",
+    "final_text": "Your order ZT-90215 has been shipped via Quillfast. Your tracking reference is TRK-B2XW."
+  }
+]

@@ -1,0 +1,1146 @@
+[
+  {
+    "run_id": "inf02_latency_w1_20261125T164638Z_02a80a",
+    "started_utc": "2026-11-25T16:46:38+00:00",
+    "params": {
+      "models": [
+        "moss/fastlane-1"
+      ],
+      "index": null,
+      "ctx": [
+        0
+      ],
+      "prefix": [
+        "repeat"
+      ],
+      "n": 50,
+      "warmup": 10,
+      "max_output": 64,
+      "floor_every": 10,
+      "cold": false,
+      "seed": 7,
+      "endpoint": "responses",
+      "campaign": "inf02_latency_w1",
+      "min_interval": 1.0,
+      "conditions": [
+        [
+          "moss/fastlane-1",
+          false,
+          0,
+          "repeat"
+        ]
+      ],
+      "estimate_usd": 0.0097
+    },
+    "conditions": [
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 50,
+        "status_counts": {
+          "200": 50
+        },
+        "outcomes": {
+          "completed": 50
+        },
+        "ttft_ms": {
+          "n": 50,
+          "mean": 185.55,
+          "sd": 46.25,
+          "min": 152.93,
+          "p50": 176.57,
+          "p90": 206.96,
+          "p95": 263.88,
+          "max": 439.72
+        },
+        "total_ms": {
+          "n": 50,
+          "mean": 391.47,
+          "sd": 82.01,
+          "min": 252.64,
+          "p50": 385.67,
+          "p90": 480.5,
+          "p95": 533.22,
+          "max": 644.11
+        },
+        "under_200ms": 44,
+        "under_200ms_wilson95": [
+          0.7619492111337642,
+          0.9438247628937535
+        ],
+        "input_tokens": {
+          "n": 50,
+          "mean": 133.2,
+          "sd": 1.69,
+          "min": 131,
+          "p50": 133.0,
+          "p90": 137.0,
+          "p95": 137.0,
+          "max": 137
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 50,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "run_id": "inf02_latency_w2_20261125T165632Z_412f54",
+    "started_utc": "2026-11-25T16:56:32+00:00",
+    "params": {
+      "models": [
+        "moss/fastlane-1"
+      ],
+      "index": "audit-facts",
+      "ctx": [
+        0
+      ],
+      "prefix": [
+        "repeat"
+      ],
+      "n": 50,
+      "warmup": 10,
+      "max_output": 64,
+      "floor_every": 10,
+      "cold": false,
+      "seed": 7,
+      "endpoint": "responses",
+      "campaign": "inf02_latency_w2",
+      "min_interval": 1.0,
+      "conditions": [
+        [
+          "moss/fastlane-1",
+          false,
+          0,
+          "repeat"
+        ],
+        [
+          "moss/fastlane-1",
+          true,
+          0,
+          "repeat"
+        ]
+      ],
+      "estimate_usd": 0.1094
+    },
+    "conditions": [
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 50,
+        "status_counts": {
+          "200": 50
+        },
+        "outcomes": {
+          "completed": 49,
+          "incomplete": 1
+        },
+        "ttft_ms": {
+          "n": 50,
+          "mean": 306.9,
+          "sd": 515.38,
+          "min": 155.8,
+          "p50": 185.27,
+          "p90": 303.27,
+          "p95": 325.18,
+          "max": 2978.57
+        },
+        "total_ms": {
+          "n": 50,
+          "mean": 620.7,
+          "sd": 1208.06,
+          "min": 238.86,
+          "p50": 381.25,
+          "p90": 604.78,
+          "p95": 790.74,
+          "max": 8528.05
+        },
+        "under_200ms": 34,
+        "under_200ms_wilson95": [
+          0.5418944286372394,
+          0.792419559060006
+        ],
+        "input_tokens": {
+          "n": 50,
+          "mean": 135.94,
+          "sd": 2.4,
+          "min": 122,
+          "p50": 136.0,
+          "p90": 138.0,
+          "p95": 138.0,
+          "max": 139
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 50,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": true,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 50,
+        "status_counts": {
+          "200": 50
+        },
+        "outcomes": {
+          "completed": 50
+        },
+        "ttft_ms": {
+          "n": 50,
+          "mean": 527.81,
+          "sd": 821.86,
+          "min": 206.87,
+          "p50": 237.72,
+          "p90": 924.24,
+          "p95": 2970.89,
+          "max": 3104.3
+        },
+        "total_ms": {
+          "n": 50,
+          "mean": 632.76,
+          "sd": 802.54,
+          "min": 271.64,
+          "p50": 334.91,
+          "p90": 1006.52,
+          "p95": 2980.12,
+          "max": 3180.53
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.07135003417431873
+        ],
+        "input_tokens": {
+          "n": 50,
+          "mean": 477.0,
+          "sd": 22.21,
+          "min": 404,
+          "p50": 477.0,
+          "p90": 501.1,
+          "p95": 502.0,
+          "max": 502
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 50,
+          "mean": 10.7,
+          "sd": 0.98,
+          "min": 9.8,
+          "p50": 10.5,
+          "p90": 11.52,
+          "p95": 12.35,
+          "max": 15.5
+        }
+      }
+    ],
+    "paired_grounded_minus_plain_ms": {
+      "n": 50,
+      "mean": 220.9,
+      "sd": 633.65,
+      "min": -85.68,
+      "p50": 52.03,
+      "p90": 303.08,
+      "p95": 1579.93,
+      "max": 2796.32
+    }
+  },
+  {
+    "run_id": "inf02_latency_w3_20261125T181659Z_cb9684",
+    "started_utc": "2026-11-25T18:16:59+00:00",
+    "params": {
+      "models": [
+        "moss/fastlane-1"
+      ],
+      "index": "audit-facts",
+      "ctx": [
+        0
+      ],
+      "prefix": [
+        "repeat"
+      ],
+      "n": 20,
+      "warmup": 5,
+      "max_output": 64,
+      "floor_every": 10,
+      "cold": false,
+      "seed": 7,
+      "endpoint": "responses",
+      "campaign": "inf02_latency_w3",
+      "min_interval": 1.0,
+      "conditions": [
+        [
+          "moss/fastlane-1",
+          false,
+          0,
+          "repeat"
+        ],
+        [
+          "moss/fastlane-1",
+          true,
+          0,
+          "repeat"
+        ]
+      ],
+      "estimate_usd": 0.0456
+    },
+    "conditions": [
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 20,
+        "status_counts": {
+          "200": 20
+        },
+        "outcomes": {
+          "completed": 20
+        },
+        "ttft_ms": {
+          "n": 20,
+          "mean": 165.96,
+          "sd": 11.41,
+          "min": 152.41,
+          "p50": 160.37,
+          "p90": 181.41,
+          "p95": 181.49,
+          "max": 182.68
+        },
+        "total_ms": {
+          "n": 20,
+          "mean": 355.51,
+          "sd": 97.83,
+          "min": 249.02,
+          "p50": 335.39,
+          "p90": 477.71,
+          "p95": 535.87,
+          "max": 577.41
+        },
+        "under_200ms": 20,
+        "under_200ms_wilson95": [
+          0.8388698745050667,
+          1.0
+        ],
+        "input_tokens": {
+          "n": 20,
+          "mean": 136.2,
+          "sd": 1.4,
+          "min": 134,
+          "p50": 136.0,
+          "p90": 138.0,
+          "p95": 138.05,
+          "max": 139
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 20,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": true,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 20,
+        "status_counts": {
+          "200": 20
+        },
+        "outcomes": {
+          "completed": 20
+        },
+        "ttft_ms": {
+          "n": 20,
+          "mean": 217.34,
+          "sd": 11.56,
+          "min": 202.74,
+          "p50": 217.84,
+          "p90": 231.28,
+          "p95": 231.72,
+          "max": 237.8
+        },
+        "total_ms": {
+          "n": 20,
+          "mean": 307.72,
+          "sd": 20.82,
+          "min": 270.43,
+          "p50": 308.99,
+          "p90": 335.8,
+          "p95": 337.74,
+          "max": 361.9
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.16113012549493322
+        ],
+        "input_tokens": {
+          "n": 20,
+          "mean": 482.35,
+          "sd": 11.94,
+          "min": 471,
+          "p50": 478.0,
+          "p90": 502.0,
+          "p95": 502.0,
+          "max": 502
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 20,
+          "mean": 10.34,
+          "sd": 0.43,
+          "min": 9.6,
+          "p50": 10.2,
+          "p90": 10.93,
+          "p95": 11.21,
+          "max": 11.4
+        }
+      }
+    ],
+    "paired_grounded_minus_plain_ms": {
+      "n": 20,
+      "mean": 51.39,
+      "sd": 15.55,
+      "min": 23.11,
+      "p50": 50.55,
+      "p90": 72.13,
+      "p95": 75.15,
+      "max": 76.48
+    }
+  },
+  {
+    "run_id": "inf03_vendor_20261125T170449Z_8b4492",
+    "started_utc": "2026-11-25T17:04:49+00:00",
+    "params": {
+      "models": [
+        "moss/fastlane-1",
+        "anthropic/claude-haiku-5.5"
+      ],
+      "index": null,
+      "ctx": [
+        0
+      ],
+      "prefix": [
+        "repeat"
+      ],
+      "n": 40,
+      "warmup": 5,
+      "max_output": 64,
+      "floor_every": 10,
+      "cold": false,
+      "seed": 7,
+      "endpoint": "responses",
+      "campaign": "inf03_vendor",
+      "min_interval": 1.0,
+      "conditions": [
+        [
+          "moss/fastlane-1",
+          false,
+          0,
+          "repeat"
+        ],
+        [
+          "anthropic/claude-haiku-5.5",
+          false,
+          0,
+          "repeat"
+        ]
+      ],
+      "estimate_usd": 0.0096
+    },
+    "conditions": [
+      {
+        "model": "anthropic/claude-haiku-5.5",
+        "grounded": false,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 40,
+        "status_counts": {
+          "200": 40
+        },
+        "outcomes": {
+          "completed": 40
+        },
+        "ttft_ms": {
+          "n": 40,
+          "mean": 489.39,
+          "sd": 77.81,
+          "min": 375.06,
+          "p50": 480.65,
+          "p90": 569.74,
+          "p95": 578.17,
+          "max": 758.44
+        },
+        "total_ms": {
+          "n": 40,
+          "mean": 699.97,
+          "sd": 131.89,
+          "min": 513.88,
+          "p50": 693.86,
+          "p90": 867.81,
+          "p95": 927.54,
+          "max": 993.88
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.08762453925039232
+        ],
+        "input_tokens": {
+          "n": 40,
+          "mean": 60.88,
+          "sd": 2.29,
+          "min": 58,
+          "p50": 60.5,
+          "p90": 66.0,
+          "p95": 66.0,
+          "max": 66
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 40,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 40,
+        "status_counts": {
+          "200": 40
+        },
+        "outcomes": {
+          "completed": 40
+        },
+        "ttft_ms": {
+          "n": 40,
+          "mean": 163.18,
+          "sd": 8.4,
+          "min": 151.39,
+          "p50": 162.92,
+          "p90": 175.7,
+          "p95": 176.59,
+          "max": 178.36
+        },
+        "total_ms": {
+          "n": 40,
+          "mean": 353.46,
+          "sd": 54.44,
+          "min": 239.84,
+          "p50": 360.04,
+          "p90": 412.76,
+          "p95": 416.74,
+          "max": 445.85
+        },
+        "under_200ms": 40,
+        "under_200ms_wilson95": [
+          0.9123754607496077,
+          1.0
+        ],
+        "input_tokens": {
+          "n": 40,
+          "mean": 133.12,
+          "sd": 1.64,
+          "min": 131,
+          "p50": 133.0,
+          "p90": 137.0,
+          "p95": 137.0,
+          "max": 137
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 40,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "run_id": "inf04_prompt_size_20261125T170619Z_beec88",
+    "started_utc": "2026-11-25T17:06:19+00:00",
+    "params": {
+      "models": [
+        "moss/fastlane-1"
+      ],
+      "index": null,
+      "ctx": [
+        1000,
+        8000,
+        32000
+      ],
+      "prefix": [
+        "repeat",
+        "fresh"
+      ],
+      "n": 10,
+      "warmup": 2,
+      "max_output": 64,
+      "floor_every": 10,
+      "cold": false,
+      "seed": 7,
+      "endpoint": "responses",
+      "campaign": "inf04_prompt_size",
+      "min_interval": 2.0,
+      "conditions": [
+        [
+          "moss/fastlane-1",
+          false,
+          1000,
+          "repeat"
+        ],
+        [
+          "moss/fastlane-1",
+          false,
+          1000,
+          "fresh"
+        ],
+        [
+          "moss/fastlane-1",
+          false,
+          8000,
+          "repeat"
+        ],
+        [
+          "moss/fastlane-1",
+          false,
+          8000,
+          "fresh"
+        ],
+        [
+          "moss/fastlane-1",
+          false,
+          32000,
+          "repeat"
+        ],
+        [
+          "moss/fastlane-1",
+          false,
+          32000,
+          "fresh"
+        ]
+      ],
+      "estimate_usd": 0.2577
+    },
+    "conditions": [
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 1000,
+        "prefix": "fresh",
+        "attempted": 10,
+        "status_counts": {
+          "200": 10
+        },
+        "outcomes": {
+          "completed": 10
+        },
+        "ttft_ms": {
+          "n": 10,
+          "mean": 242.65,
+          "sd": 6.07,
+          "min": 232.4,
+          "p50": 243.47,
+          "p90": 248.94,
+          "p95": 249.51,
+          "max": 250.09
+        },
+        "total_ms": {
+          "n": 10,
+          "mean": 399.51,
+          "sd": 50.48,
+          "min": 362.32,
+          "p50": 376.46,
+          "p90": 480.95,
+          "p95": 492.32,
+          "max": 503.7
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.2775401687666166
+        ],
+        "input_tokens": {
+          "n": 10,
+          "mean": 1020.9,
+          "sd": 1.91,
+          "min": 1018,
+          "p50": 1021.0,
+          "p90": 1022.3,
+          "p95": 1023.65,
+          "max": 1025
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 10,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 1000,
+        "prefix": "repeat",
+        "attempted": 10,
+        "status_counts": {
+          "200": 10
+        },
+        "outcomes": {
+          "completed": 10
+        },
+        "ttft_ms": {
+          "n": 10,
+          "mean": 162.94,
+          "sd": 3.07,
+          "min": 159.01,
+          "p50": 162.17,
+          "p90": 164.72,
+          "p95": 167.67,
+          "max": 170.62
+        },
+        "total_ms": {
+          "n": 10,
+          "mean": 345.87,
+          "sd": 74.01,
+          "min": 261.23,
+          "p50": 333.05,
+          "p90": 409.04,
+          "p95": 456.12,
+          "max": 503.2
+        },
+        "under_200ms": 10,
+        "under_200ms_wilson95": [
+          0.7224598312333834,
+          1.0
+        ],
+        "input_tokens": {
+          "n": 10,
+          "mean": 1002.5,
+          "sd": 1.96,
+          "min": 1000,
+          "p50": 1002.0,
+          "p90": 1006.0,
+          "p95": 1006.0,
+          "max": 1006
+        },
+        "cached_tokens": [
+          800
+        ],
+        "retrieve_ms": {
+          "n": 10,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 8000,
+        "prefix": "fresh",
+        "attempted": 10,
+        "status_counts": {
+          "200": 10
+        },
+        "outcomes": {
+          "completed": 10
+        },
+        "ttft_ms": {
+          "n": 10,
+          "mean": 551.45,
+          "sd": 11.36,
+          "min": 540.06,
+          "p50": 546.84,
+          "p90": 568.13,
+          "p95": 569.55,
+          "max": 570.98
+        },
+        "total_ms": {
+          "n": 10,
+          "mean": 755.45,
+          "sd": 73.55,
+          "min": 677.77,
+          "p50": 749.2,
+          "p90": 842.97,
+          "p95": 858.85,
+          "max": 874.73
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.2775401687666166
+        ],
+        "input_tokens": {
+          "n": 10,
+          "mean": 7080.6,
+          "sd": 3.37,
+          "min": 7076,
+          "p50": 7080.0,
+          "p90": 7085.1,
+          "p95": 7085.55,
+          "max": 7086
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 10,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 8000,
+        "prefix": "repeat",
+        "attempted": 10,
+        "status_counts": {
+          "200": 10
+        },
+        "outcomes": {
+          "completed": 10
+        },
+        "ttft_ms": {
+          "n": 10,
+          "mean": 233.85,
+          "sd": 6.3,
+          "min": 227.76,
+          "p50": 232.64,
+          "p90": 239.84,
+          "p95": 244.24,
+          "max": 248.65
+        },
+        "total_ms": {
+          "n": 10,
+          "mean": 401.9,
+          "sd": 29.16,
+          "min": 347.49,
+          "p50": 404.73,
+          "p90": 436.01,
+          "p95": 442.41,
+          "max": 448.8
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.2775401687666166
+        ],
+        "input_tokens": {
+          "n": 10,
+          "mean": 7062.5,
+          "sd": 1.96,
+          "min": 7060,
+          "p50": 7062.0,
+          "p90": 7066.0,
+          "p95": 7066.0,
+          "max": 7066
+        },
+        "cached_tokens": [
+          6400
+        ],
+        "retrieve_ms": {
+          "n": 10,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 32000,
+        "prefix": "fresh",
+        "attempted": 10,
+        "status_counts": {
+          "200": 10
+        },
+        "outcomes": {
+          "completed": 10
+        },
+        "ttft_ms": {
+          "n": 10,
+          "mean": 2020.98,
+          "sd": 61.14,
+          "min": 1975.41,
+          "p50": 1998.8,
+          "p90": 2063.34,
+          "p95": 2123.11,
+          "max": 2182.87
+        },
+        "total_ms": {
+          "n": 10,
+          "mean": 2201.84,
+          "sd": 83.21,
+          "min": 2119.79,
+          "p50": 2168.52,
+          "p90": 2278.67,
+          "p95": 2330.58,
+          "max": 2382.5
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.2775401687666166
+        ],
+        "input_tokens": {
+          "n": 10,
+          "mean": 27857.0,
+          "sd": 1.49,
+          "min": 27855,
+          "p50": 27857.0,
+          "p90": 27859.1,
+          "p95": 27859.55,
+          "max": 27860
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 10,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 32000,
+        "prefix": "repeat",
+        "attempted": 10,
+        "status_counts": {
+          "200": 10
+        },
+        "outcomes": {
+          "completed": 10
+        },
+        "ttft_ms": {
+          "n": 10,
+          "mean": 348.12,
+          "sd": 30.04,
+          "min": 324.95,
+          "p50": 338.02,
+          "p90": 375.07,
+          "p95": 399.65,
+          "max": 424.22
+        },
+        "total_ms": {
+          "n": 10,
+          "mean": 523.79,
+          "sd": 57.52,
+          "min": 427.92,
+          "p50": 525.78,
+          "p90": 575.93,
+          "p95": 599.1,
+          "max": 622.27
+        },
+        "under_200ms": 0,
+        "under_200ms_wilson95": [
+          0.0,
+          0.2775401687666166
+        ],
+        "input_tokens": {
+          "n": 10,
+          "mean": 27838.5,
+          "sd": 1.96,
+          "min": 27836,
+          "p50": 27838.0,
+          "p90": 27842.0,
+          "p95": 27842.0,
+          "max": 27842
+        },
+        "cached_tokens": [
+          27200
+        ],
+        "retrieve_ms": {
+          "n": 10,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "run_id": "inf02_latency_20261125T164536Z_ba5965",
+    "started_utc": "2026-11-25T16:45:36+00:00",
+    "params": {
+      "models": [
+        "moss/fastlane-1"
+      ],
+      "index": null,
+      "ctx": [
+        0
+      ],
+      "prefix": [
+        "repeat"
+      ],
+      "n": 50,
+      "warmup": 10,
+      "max_output": 64,
+      "floor_every": 10,
+      "cold": false,
+      "seed": 7,
+      "endpoint": "responses",
+      "campaign": "inf02_latency",
+      "conditions": [
+        [
+          "moss/fastlane-1",
+          false,
+          0,
+          "repeat"
+        ]
+      ],
+      "estimate_usd": 0.0097
+    },
+    "conditions": [
+      {
+        "model": "moss/fastlane-1",
+        "grounded": false,
+        "ctx": 0,
+        "prefix": "repeat",
+        "attempted": 50,
+        "status_counts": {
+          "200": 45,
+          "429": 5
+        },
+        "outcomes": {
+          "completed": 45,
+          "None": 5
+        },
+        "ttft_ms": {
+          "n": 45,
+          "mean": 199.14,
+          "sd": 33.35,
+          "min": 163.25,
+          "p50": 190.64,
+          "p90": 253.95,
+          "p95": 273.52,
+          "max": 290.8
+        },
+        "total_ms": {
+          "n": 45,
+          "mean": 391.12,
+          "sd": 71.72,
+          "min": 246.06,
+          "p50": 390.27,
+          "p90": 472.1,
+          "p95": 500.26,
+          "max": 546.53
+        },
+        "under_200ms": 28,
+        "under_200ms_wilson95": [
+          0.4230578680014353,
+          0.6883801278976466
+        ],
+        "input_tokens": {
+          "n": 45,
+          "mean": 133.13,
+          "sd": 1.69,
+          "min": 131,
+          "p50": 133.0,
+          "p90": 137.0,
+          "p95": 137.0,
+          "max": 137
+        },
+        "cached_tokens": [
+          0
+        ],
+        "retrieve_ms": {
+          "n": 45,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      }
+    ]
+  }
+]

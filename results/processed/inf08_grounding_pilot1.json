@@ -1,0 +1,32 @@
+[
+  {
+    "q": "q00",
+    "arm": "plain",
+    "answerable": true,
+    "response_status": "completed",
+    "expected": "1803",
+    "status": 200,
+    "verdict": "abstained",
+    "output_text": "{\"answer\": null, \"found\": false}",
+    "input_tokens": 174,
+    "retrieve_ms": "0.0",
+    "total_ms": 291.58,
+    "request_id": "f7554efc080c431789c86302d5820789",
+    "cost_usd": 6.275e-05
+  },
+  {
+    "q": "q00",
+    "arm": "grounded",
+    "answerable": true,
+    "response_status": "completed",
+    "expected": "1803",
+    "status": 200,
+    "verdict": "correct",
+    "output_text": "{\n  \"answer\": \"1803\",\n  \"found\": true\n}",
+    "input_tokens": 394,
+    "retrieve_ms": "1073.6",
+    "total_ms": 1524.18,
+    "request_id": "49827a619ae34be1b022b2f5aea196cd",
+    "cost_usd": 0.00063525
+  }
+]
