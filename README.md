@@ -68,10 +68,11 @@ limitations.
   - Requests are paced below the documented rate limit.
   - TTFT is timed on raw socket chunks.
 - **Budget safety.**
-  - Every paid send reserves its worst case in a file-locked ledger before it is sent, with a cap
-    of $8.
-  - Tasks run one at a time. An ambiguous create keeps its reservation until it is recovered
-    with the same Idempotency-Key.
+  - Every paid send reserves an estimated worst case in a file-locked ledger before it is sent,
+    with a cap of $8. The task estimates are launch allowances, not proven bounds.
+  - Tasks run one at a time, except the deliberate concurrent pair in the idempotency case (I1). An
+    ambiguous create keeps its reservation until it is recovered with the same Idempotency-Key.
+    Ambiguous I1 sends are never resent; they are reconciled by hand.
 - **Tooling disclosure.** AI assistants helped build and review the harness.
 - **Out of scope.** Security testing, load tests, rate-limit evasion, and internal or `file://`
   URLs in tasks.
