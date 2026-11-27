@@ -25,7 +25,7 @@ run metadata.
 | Failure input (TSK-09) | `start_url` returns 404 | `{"upc": null, "found": false}`, status `completed` |
 | Reproducibility (TSK-10) | L1 three times | 3/3 correct; cost $0.0047–0.0071, 2–3 steps, 3–7 model calls |
 | Cost cap (TSK-04) | $0.01 cap on a 32-book goal | `failed` / `budget_exceeded` at $0.010345 total ($0.010012 model) after 46.5 s |
-| Runtime cap (TSK-05) | 60 s cap, 32 books | completed in 50.3 s with 32/32 title + UPC exact (cap not reached) |
+| Runtime cap (TSK-05) | 60 s cap, 32 books | completed in 50.3 s with 32/32 title + UPC exact, scored offline by `scripts/check_crawl.py` (cap not reached) |
 | Runtime cap (TSK-05) | 60 s cap, 4 categories | `failed` / `time_limit` "Stopped after 60 s" at 61.3 s |
 | Cancel (TSK-06') | once `running` is seen; on a finished task | running: 200 + `cancel_requested: true`, `cancelled` at the first poll 3.1 s later, 0 steps. Finished: 200, unchanged |
 | Idempotency (TSK-07') | replay while running and after finish; same key with another body; concurrent duplicate pair | as documented: same id with `Idempotent-Replayed: true`, 422 `idempotency_key_reused`, one task for the pair |
@@ -103,7 +103,7 @@ that the reported charge does not follow the documented rule.
 
 ---
 
-## TSK-A3 · Failed tasks returned no result, but did return a partial CSV file
+## TSK-A3 · Failed tasks returned `result: null`, while a CSV file was still downloadable
 
 | Field | Value |
 |---|---|

@@ -64,9 +64,9 @@ Questions come from the fixture, and pairs run in random order.
   - window 1 (generic questions): p50 176.6 ms, 44/50 under 200 ms, in `inf02_latency_w1_20261125T164638Z_02a80a.jsonl`;
   - INF-03: p50 162.9 ms, 40/40 under 200 ms, in `inf03_vendor_20261125T170449Z_8b4492.jsonl`.
 
-**Impact.** A voice-agent builder who sizes a turn budget on "sub-200 ms, grounded" misses it on
-typical grounded calls from a well-connected European client. The claim does hold for plain calls
-in some windows.
+**Impact.** The "sub-200 ms, grounded" headline was not reproduced on this fixture, from this
+client, in these two windows. A voice-agent builder who sized a turn budget on it would have missed
+it on every grounded call measured here. The claim did hold for plain calls in some windows.
 
 **Suspected root cause** (hypothesis, not established). These logs cannot split the extra time
 between prefill of the longer prompt, the retrieval pipeline outside the reported 10 ms, and
@@ -168,7 +168,7 @@ dashboards then mix hits (about 110 ms) with model calls.
 
 ---
 
-## INF-A4 · An invalid `X-Moss-Retrieve` value silently runs the paid search
+## INF-A4 · An invalid `X-Moss-Retrieve` value is accepted and a search runs
 
 | Field | Value |
 |---|---|

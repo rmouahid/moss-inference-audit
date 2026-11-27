@@ -36,7 +36,7 @@ are labelled as such where they are used.
 | What | Result |
 |---|---|
 | Accuracy on fixture pages with our own ground truth | 11/11 scored tasks correct: one fact (L1, 3 attempts), a fact among distractors, three facts, 2-hop navigation, a count across pages, an absent field (null) and a 404 page (null). L1 and the three-fact case also ran once each on `moss-balanced` |
-| Long goal (32 books, title + UPC) | 32/32 exact in 50 s for $0.0126 |
+| Long goal (32 books, title + UPC) | 32/32 exact in 50 s for $0.0126 (scored offline against our own truth: `scripts/check_crawl.py`) |
 | Cost | $0.005–0.007 per short task on `moss-fast`. `moss-balanced` cost 8–10 times more for the same answers |
 | Limits | `budget_exceeded` with a $0.01 model-cost cap, at $0.010012 model / $0.010345 total. `time_limit` at 61.3 s with a 60 s cap. On balanced, a $0.05 cap ended at $0.053 (documented: in-flight calls still bill) |
 | Cancel / idempotency / files / validation | Idempotency works as documented, including a concurrent pair. Validation: 24 cases, 0 mismatches. Cancel and files behave as documented. Small gaps: [TSK-A1](findings/tasks.md) to [TSK-A6](findings/tasks.md) |
@@ -66,7 +66,7 @@ limitations.
   - Warm-up calls are logged apart.
   - The reply cache is off unless it is the subject of the test.
   - Requests are paced below the documented rate limit.
-  - TTFT is timed on raw socket chunks.
+  - TTFT is timed on HTTP response-body chunks as they arrive, not through an SDK.
 - **Budget safety.**
   - Every paid send reserves an estimated worst case in a file-locked ledger before it is sent,
     with a cap of $8. The task estimates are launch allowances, not proven bounds.
@@ -79,18 +79,25 @@ limitations.
 
 ## Reproduce
 
-Every command except `pytest` and the two scripts on the last line spends credits. The $8 ledger
-cap works on estimated worst-case exposure; it is not a bill.
+Every command except `pytest` and the scripts on the last two lines spends credits. The $8 ledger
+cap works on estimated worst-case exposure; it is not a bill (set `MOSS_BUDGET_CAP_USD` in `.env`
+for a lower one). Paid reruns write their summaries to `results/reruns/` (git-ignored), so they do
+not overwrite the published results in `results/processed/`. The offline scripts on the last lines
+recompute published files from the published logs, so their output should not change.
 
 ```bash
 uv venv && source .venv/bin/activate && uv pip install -e '.[sdk,dev]'
 cp .env.example .env   # fill MOSS_PROJECT_ID, MOSS_PROJECT_KEY, MOSS_AUDIT_CLIENT
-pytest -q              # 40 offline tests: ledger, SSE parser, task runner (mocked); no credits
+pytest -q              # offline tests: ledger, SSE parser, task runner (mocked); no credits
 python benchmarks/inference/smoke.py
 python benchmarks/inference/contract.py
 python scripts/make_index.py
 python benchmarks/inference/grounding.py
-python benchmarks/inference/latency.py --models moss/fastlane-1 --index audit-facts --n 50 --warmup 10
+python benchmarks/inference/latency.py --campaign inf02_latency_w1 --models moss/fastlane-1 --n 50 --warmup 10
+python benchmarks/inference/latency.py --campaign inf02_latency_w2 --models moss/fastlane-1 --index audit-facts --n 50 --warmup 10
+python benchmarks/inference/latency.py --campaign inf02_latency_w3 --models moss/fastlane-1 --index audit-facts --n 20 --warmup 5
+python benchmarks/inference/latency.py --campaign inf03_vendor --models moss/fastlane-1 anthropic/claude-haiku-5.5 --n 40 --warmup 5
+python benchmarks/inference/latency.py --campaign inf04_prompt_size --models moss/fastlane-1 --ctx 1000 8000 32000 --prefix repeat fresh --n 10 --warmup 2 --min-interval 2
 python benchmarks/inference/cache.py
 python benchmarks/inference/tools.py
 python benchmarks/inference/streaming.py
@@ -100,9 +107,14 @@ python benchmarks/tasks/campaign.py   # case I1 deliberately sends a concurrent 
                                       # an ambiguous I1 send needs manual reconciliation
 python benchmarks/tasks/validation.py
 python scripts/redact.py && python scripts/analyze_latency.py
+python scripts/check_crawl.py    # offline: scores the 32-book crawl against the saved truth
+python scripts/gen_api_docs.py   # regenerates docs/reference.md from the docstrings
 ```
 
 ## Layout
+
+See [`docs/architecture.md`](docs/architecture.md) for how the pieces fit together and
+[`docs/reference.md`](docs/reference.md) for the generated code reference.
 
 ```
 src/mossaudit/        client (frame-accurate SSE timing), ledger, task runner, prices, stats
@@ -112,6 +124,7 @@ scripts/              make_index, redact, analyze_latency, reconcile
 results/processed/    per-campaign JSON summaries
 results/logs/         redacted raw call logs (JSON Lines)
 findings/             anomaly cards
+docs/                 architecture and generated code reference
 ```
 
 ## Limitations
