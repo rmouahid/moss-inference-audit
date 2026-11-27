@@ -19,8 +19,9 @@ closed_early (we stopped on purpose) | eof_no_terminal | unexpected_done | read_
 An event missing its blank-line delimiter at EOF is discarded and logged as `<incomplete-frame>`.
 
 httpx's trace extension tells whether the call opened a new connection; `connect_ms` covers TCP connect
-only (DNS is separate in httpx 0.28 and not isolated here). No secret is stored: only a whitelist of
-response headers is kept, and the Authorization header never leaves this module.
+only (DNS is separate in httpx 0.28 and not isolated here). Only a whitelist of response headers is
+kept and the Authorization header is never logged. Response bodies ARE kept as received, so raw logs
+can contain whatever the API sent back: publish them only through scripts/redact.py.
 """
 
 from __future__ import annotations
@@ -62,6 +63,8 @@ TERMINAL_EVENTS = {"response.completed": "completed", "response.incomplete": "in
 
 @dataclass
 class CallRecord:
+    """Everything logged about one HTTP exchange: request, status, kept headers, timings and body."""
+
     ts_utc: str
     method: str
     path: str
@@ -91,10 +94,13 @@ class CallRecord:
     tag: dict[str, Any] = field(default_factory=dict)
 
     def to_json(self) -> str:
+        """Serialise the record as one JSON line."""
         return json.dumps(asdict(self), ensure_ascii=False)
 
 
 class MossHTTP:
+    """Thin httpx wrapper that sends one request per `call()` and times it at the byte level."""
+
     def __init__(
         self,
         creds: Credentials | None,
@@ -118,6 +124,7 @@ class MossHTTP:
         )
 
     def close(self) -> None:
+        """Close the underlying connection pool."""
         self._client.close()
 
     def __enter__(self) -> MossHTTP:
@@ -138,6 +145,17 @@ class MossHTTP:
         drain_after_done: bool = False,
         timeout_s: float | None = None,
     ) -> CallRecord:
+        """Send one request and return its CallRecord.
+
+        All times are milliseconds after the request is handed to httpx (`t0`, see the module
+        docstring). TTFT is `t_first_token_ms`: the first COMPLETE event that carries non-empty text.
+        `timeout_s` applies per httpx operation (connect, read, write), not to the whole call.
+        With `stop_after_first_token` the stream is closed on purpose after that event
+        (`stream_outcome = "closed_early"`); with `drain_after_done` reading continues after
+        `[DONE]` to catch trailing frames. An API refusal (4xx/5xx) is a normal record: see
+        `rec.status` and `rec.body`. Transport errors and malformed streams are recorded in
+        `rec.error` / `rec.stream_outcome` instead of being raised.
+        """
         rec = CallRecord(
             ts_utc=datetime.now(UTC).isoformat(timespec="milliseconds"),
             method=method,
@@ -367,15 +385,21 @@ def _read_sse(resp: httpx.Response, rec: CallRecord, t0: float, stop_after_first
 
 def _output_text(body: dict[str, Any]) -> str:
     """Text of a non-streamed Responses or Chat Completions body."""
+    # Malformed shapes (null text, a number where a list is expected...) give "" instead of a crash,
+    # so the call is still logged with its original body.
     if body.get("object") == "chat.completion":
         try:
-            return body["choices"][0]["message"].get("content") or ""
-        except (KeyError, IndexError, TypeError):
+            content = body["choices"][0]["message"].get("content")
+        except (KeyError, IndexError, TypeError, AttributeError):
             return ""
+        return content if isinstance(content, str) else ""
     parts = []
-    for item in body.get("output") or []:
+    output = body.get("output")
+    for item in output if isinstance(output, list) else []:
         if isinstance(item, dict) and item.get("type") == "message":
-            for c in item.get("content") or []:
+            content = item.get("content")
+            for c in content if isinstance(content, list) else []:
                 if isinstance(c, dict) and c.get("type") == "output_text":
-                    parts.append(c.get("text", ""))
+                    text = c.get("text")
+                    parts.append(text if isinstance(text, str) else "")
     return "".join(parts)

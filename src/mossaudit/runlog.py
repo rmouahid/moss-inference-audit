@@ -7,6 +7,7 @@ import json
 import os
 import platform
 import sys
+import threading
 import uuid
 from datetime import UTC, datetime
 from importlib import metadata
@@ -49,6 +50,8 @@ def _client_location() -> str:
 
 
 class RunLog:
+    """Context manager that writes one JSONL file per run under results/raw/."""
+
     def __init__(self, campaign: str, params: dict[str, Any] | None = None) -> None:
         RESULTS_RAW.mkdir(parents=True, exist_ok=True)
         stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
@@ -67,19 +70,25 @@ class RunLog:
             "params": params or {},
         }
         self._f = self.path.open("x")  # never overwrite a run
+        self._lock = threading.Lock()  # the I1 pair sends from two threads
         self._write(meta)
 
     def _write(self, obj: dict[str, Any]) -> None:
-        self._f.write(json.dumps(obj, ensure_ascii=False) + "\n")
-        self._f.flush()
+        line = json.dumps(obj, ensure_ascii=False) + "\n"
+        with self._lock:
+            self._f.write(line)
+            self._f.flush()
 
     def call(self, rec: CallRecord) -> None:
+        """Append one call record."""
         self._write({"type": "call", **json.loads(rec.to_json())})
 
     def note(self, **kv: Any) -> None:
+        """Append a free-form note (verdicts, scores, run decisions)."""
         self._write({"type": "note", **kv})
 
     def close(self) -> None:
+        """Write the end marker and close the file."""
         self._write({"type": "run_end", "ended_utc": datetime.now(UTC).isoformat(timespec="seconds")})
         self._f.close()
         print(f"[runlog] {self.path.relative_to(RESULTS_RAW.parents[1])}")
@@ -92,6 +101,7 @@ class RunLog:
 
 
 def load(path: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Read a run file: (run metadata, call records)."""
     lines = [json.loads(x) for x in path.read_text().splitlines() if x.strip()]
     meta = lines[0]
     return meta, [x for x in lines if x.get("type") == "call"]
