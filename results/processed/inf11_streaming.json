@@ -1,0 +1,692 @@
+[
+  {
+    "case": "resp_text",
+    "status": 200,
+    "outcome": "completed",
+    "n_events": 12,
+    "event_types": [
+      "response.completed",
+      "response.content_part.added",
+      "response.content_part.done",
+      "response.created",
+      "response.in_progress",
+      "response.output_item.added",
+      "response.output_item.done",
+      "response.output_text.delta",
+      "response.output_text.done"
+    ],
+    "undocumented_events": [],
+    "terminals": [
+      "response.completed"
+    ],
+    "done_marker": false,
+    "check": true,
+    "detail": "conforms",
+    "frames": [
+      {
+        "t": "response.created",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.in_progress",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_item.added",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.content_part.added",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.content_part.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_item.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "item_id": "msg_fe63adeda15c4482a32eaf6b27b1b597_0",
+        "item_type": "message"
+      },
+      {
+        "t": "response.completed",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      }
+    ],
+    "usage": {
+      "total_tokens": 101,
+      "input_tokens": 93,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 8,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "text": "Hello there, how are you?",
+    "t_first_token_ms": 485.98,
+    "t_end_ms": 549.59,
+    "request_id": "fe63adeda15c4482a32eaf6b27b1b597"
+  },
+  {
+    "case": "resp_capped",
+    "status": 200,
+    "outcome": "incomplete",
+    "n_events": 13,
+    "event_types": [
+      "response.content_part.added",
+      "response.content_part.done",
+      "response.created",
+      "response.in_progress",
+      "response.incomplete",
+      "response.output_item.added",
+      "response.output_item.done",
+      "response.output_text.delta",
+      "response.output_text.done"
+    ],
+    "undocumented_events": [],
+    "terminals": [
+      "response.incomplete"
+    ],
+    "done_marker": false,
+    "check": true,
+    "detail": "conforms",
+    "frames": [
+      {
+        "t": "response.created",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.in_progress",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_item.added",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.content_part.added",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.content_part.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_item.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "item_id": "msg_d1df2ca6a97843c19a6cdd63e6f309e7_0",
+        "item_type": "message"
+      },
+      {
+        "t": "response.incomplete",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      }
+    ],
+    "usage": {
+      "total_tokens": 109,
+      "input_tokens": 101,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 8,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "text": "The fog did not roll in; it",
+    "t_first_token_ms": 155.34,
+    "t_end_ms": 220.04,
+    "request_id": "d1df2ca6a97843c19a6cdd63e6f309e7"
+  },
+  {
+    "case": "resp_tool",
+    "status": 200,
+    "outcome": "completed",
+    "n_events": 11,
+    "event_types": [
+      "response.completed",
+      "response.created",
+      "response.function_call_arguments.delta",
+      "response.function_call_arguments.done",
+      "response.in_progress",
+      "response.output_item.added",
+      "response.output_item.done"
+    ],
+    "undocumented_events": [],
+    "terminals": [
+      "response.completed"
+    ],
+    "done_marker": false,
+    "check": true,
+    "detail": "conforms",
+    "frames": [
+      {
+        "t": "response.created",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.in_progress",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_item.added",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.function_call_arguments.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "delta": "{\"id\": \"",
+        "arguments": null,
+        "item_id": "fc_e926acc7464d473788e681da1c4cda41_0",
+        "name": null
+      },
+      {
+        "t": "response.function_call_arguments.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "delta": "ZT",
+        "arguments": null,
+        "item_id": "fc_e926acc7464d473788e681da1c4cda41_0",
+        "name": null
+      },
+      {
+        "t": "response.function_call_arguments.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "delta": "-90",
+        "arguments": null,
+        "item_id": "fc_e926acc7464d473788e681da1c4cda41_0",
+        "name": null
+      },
+      {
+        "t": "response.function_call_arguments.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "delta": "215",
+        "arguments": null,
+        "item_id": "fc_e926acc7464d473788e681da1c4cda41_0",
+        "name": null
+      },
+      {
+        "t": "response.function_call_arguments.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "delta": "\"}",
+        "arguments": null,
+        "item_id": "fc_e926acc7464d473788e681da1c4cda41_0",
+        "name": null
+      },
+      {
+        "t": "response.function_call_arguments.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "delta": null,
+        "arguments": "{\"id\": \"ZT-90215\"}",
+        "item_id": "fc_e926acc7464d473788e681da1c4cda41_0",
+        "name": "lookup_order"
+      },
+      {
+        "t": "response.output_item.done",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null,
+        "item_id": "fc_e926acc7464d473788e681da1c4cda41_0",
+        "item_type": "function_call"
+      },
+      {
+        "t": "response.completed",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      }
+    ],
+    "usage": {
+      "total_tokens": 388,
+      "input_tokens": 355,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 33,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "text": "",
+    "t_first_token_ms": null,
+    "t_end_ms": 411.35,
+    "request_id": "e926acc7464d473788e681da1c4cda41"
+  },
+  {
+    "case": "chat_default",
+    "status": 200,
+    "outcome": "done",
+    "n_events": 8,
+    "event_types": [
+      "chat.completion.chunk"
+    ],
+    "undocumented_events": [],
+    "terminals": [],
+    "done_marker": true,
+    "check": true,
+    "detail": "conforms",
+    "frames": [
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": "stop"
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 0,
+        "usage": true,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "[DONE]"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 8,
+      "total_tokens": 101,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "text": "Hello, how are you doing?",
+    "t_first_token_ms": 154.33,
+    "t_end_ms": 218.61,
+    "request_id": "7d704cf1e6284c3dbece434177681319"
+  },
+  {
+    "case": "chat_usage_off",
+    "status": 200,
+    "outcome": "done",
+    "n_events": 7,
+    "event_types": [
+      "chat.completion.chunk"
+    ],
+    "undocumented_events": [],
+    "terminals": [],
+    "done_marker": true,
+    "check": true,
+    "detail": "conforms",
+    "frames": [
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": "stop"
+      },
+      {
+        "t": "[DONE]"
+      }
+    ],
+    "usage": null,
+    "text": "Hello there, how are you?",
+    "t_first_token_ms": 155.4,
+    "t_end_ms": 219.33,
+    "request_id": "772e814463584ad5bfff582a329c8079"
+  },
+  {
+    "case": "chat_usage_on",
+    "status": 200,
+    "outcome": "done",
+    "n_events": 7,
+    "event_types": [
+      "chat.completion.chunk"
+    ],
+    "undocumented_events": [],
+    "terminals": [],
+    "done_marker": true,
+    "check": true,
+    "detail": "conforms",
+    "frames": [
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 1,
+        "usage": false,
+        "error": false,
+        "finish": "stop"
+      },
+      {
+        "t": "chat.completion.chunk",
+        "choices": 0,
+        "usage": true,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "[DONE]"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 7,
+      "total_tokens": 100,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "text": "Hello there, how are you",
+    "t_first_token_ms": 159.08,
+    "t_end_ms": 206.55,
+    "request_id": "ca327baa727e460292a63b658b8dd292"
+  },
+  {
+    "case": "early_stop",
+    "status": 200,
+    "outcome": "closed_early",
+    "n_events": 5,
+    "event_types": [
+      "response.content_part.added",
+      "response.created",
+      "response.in_progress",
+      "response.output_item.added",
+      "response.output_text.delta"
+    ],
+    "undocumented_events": [],
+    "terminals": [],
+    "done_marker": false,
+    "check": true,
+    "detail": "outcome=closed_early deltas=1 (client closure only)",
+    "frames": [
+      {
+        "t": "response.created",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.in_progress",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_item.added",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.content_part.added",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      },
+      {
+        "t": "response.output_text.delta",
+        "choices": null,
+        "usage": false,
+        "error": false,
+        "finish": null
+      }
+    ],
+    "usage": null,
+    "text": "The",
+    "t_first_token_ms": 156.06,
+    "t_end_ms": 156.31,
+    "request_id": "33d63c9321ee476a986041c93b61e974"
+  }
+]

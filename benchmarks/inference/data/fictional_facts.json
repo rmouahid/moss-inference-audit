@@ -1,0 +1,498 @@
+{
+ "index": "audit-facts",
+ "note": "All entities, places and numbers are invented for this audit (seed 20261125); none can be known by a model in advance. fact28 changed from 1862 to 1874 (Codex r8) so every answer value is unique.",
+ "documents": [
+  {
+   "id": "fact00",
+   "text": "The Quorvane Research Station was founded in 1803 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Quorvane"
+   }
+  },
+  {
+   "id": "fact01",
+   "text": "The Ledrith Ferry Line crosses the fictional Tellow Strait in 63 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Ledrith"
+   }
+  },
+  {
+   "id": "fact02",
+   "text": "The Saphelm Lighthouse is 71 metres tall and is painted in green and grey bands.",
+   "metadata": {
+    "entity": "Saphelm"
+   }
+  },
+  {
+   "id": "fact03",
+   "text": "The Torvex Growers Cooperative registered member number 5013 as its founding member; its code is GC-5013.",
+   "metadata": {
+    "entity": "Torvex"
+   }
+  },
+  {
+   "id": "fact04",
+   "text": "The Brennac Research Station was founded in 1810 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Brennac"
+   }
+  },
+  {
+   "id": "fact05",
+   "text": "The Ulmora Ferry Line crosses the fictional Tellow Strait in 89 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Ulmora"
+   }
+  },
+  {
+   "id": "fact06",
+   "text": "The Kestivar Lighthouse is 64 metres tall and is painted in green and grey bands.",
+   "metadata": {
+    "entity": "Kestivar"
+   }
+  },
+  {
+   "id": "fact07",
+   "text": "The Drovane Growers Cooperative registered member number 3974 as its founding member; its code is GC-3974.",
+   "metadata": {
+    "entity": "Drovane"
+   }
+  },
+  {
+   "id": "fact08",
+   "text": "The Pellith Research Station was founded in 1972 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Pellith"
+   }
+  },
+  {
+   "id": "fact09",
+   "text": "The Zaramund Ferry Line crosses the fictional Tellow Strait in 84 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Zaramund"
+   }
+  },
+  {
+   "id": "fact10",
+   "text": "The Oskeline Lighthouse is 29 metres tall and is painted in green and grey bands.",
+   "metadata": {
+    "entity": "Oskeline"
+   }
+  },
+  {
+   "id": "fact11",
+   "text": "The Varnholt Growers Cooperative registered member number 5871 as its founding member; its code is GC-5871.",
+   "metadata": {
+    "entity": "Varnholt"
+   }
+  },
+  {
+   "id": "fact12",
+   "text": "The Ithrane Research Station was founded in 1960 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Ithrane"
+   }
+  },
+  {
+   "id": "fact13",
+   "text": "The Mosvale Ferry Line crosses the fictional Tellow Strait in 80 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Mosvale"
+   }
+  },
+  {
+   "id": "fact14",
+   "text": "The Cardrel Lighthouse is 20 metres tall and is painted in green and grey bands.",
+   "metadata": {
+    "entity": "Cardrel"
+   }
+  },
+  {
+   "id": "fact15",
+   "text": "The Fennoway Growers Cooperative registered member number 6098 as its founding member; its code is GC-6098.",
+   "metadata": {
+    "entity": "Fennoway"
+   }
+  },
+  {
+   "id": "fact16",
+   "text": "The Gristal Research Station was founded in 1964 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Gristal"
+   }
+  },
+  {
+   "id": "fact17",
+   "text": "The Hollerin Ferry Line crosses the fictional Tellow Strait in 28 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Hollerin"
+   }
+  },
+  {
+   "id": "fact18",
+   "text": "The Jasquith Lighthouse is 17 metres tall and is painted in green and grey bands.",
+   "metadata": {
+    "entity": "Jasquith"
+   }
+  },
+  {
+   "id": "fact19",
+   "text": "The Lunderra Growers Cooperative registered member number 5667 as its founding member; its code is GC-5667.",
+   "metadata": {
+    "entity": "Lunderra"
+   }
+  },
+  {
+   "id": "fact20",
+   "text": "The Norvast Research Station was founded in 1986 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Norvast"
+   }
+  },
+  {
+   "id": "fact21",
+   "text": "The Ombrel Ferry Line crosses the fictional Tellow Strait in 95 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Ombrel"
+   }
+  },
+  {
+   "id": "fact22",
+   "text": "The Prestwyn Lighthouse is 36 metres tall and is painted in green and grey bands.",
+   "metadata": {
+    "entity": "Prestwyn"
+   }
+  },
+  {
+   "id": "fact23",
+   "text": "The Quillane Growers Cooperative registered member number 2350 as its founding member; its code is GC-2350.",
+   "metadata": {
+    "entity": "Quillane"
+   }
+  },
+  {
+   "id": "fact24",
+   "text": "The Rendalor Research Station was founded in 1862 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Rendalor"
+   }
+  },
+  {
+   "id": "fact25",
+   "text": "The Sollebrin Ferry Line crosses the fictional Tellow Strait in 58 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Sollebrin"
+   }
+  },
+  {
+   "id": "fact26",
+   "text": "The Tavrick Lighthouse is 69 metres tall and is painted in green and grey bands.",
+   "metadata": {
+    "entity": "Tavrick"
+   }
+  },
+  {
+   "id": "fact27",
+   "text": "The Umbreth Growers Cooperative registered member number 6350 as its founding member; its code is GC-6350.",
+   "metadata": {
+    "entity": "Umbreth"
+   }
+  },
+  {
+   "id": "fact28",
+   "text": "The Wexcombe Research Station was founded in 1874 on the northern shelf of the fictional Brask Sea.",
+   "metadata": {
+    "entity": "Wexcombe"
+   }
+  },
+  {
+   "id": "fact29",
+   "text": "The Yarrowen Ferry Line crosses the fictional Tellow Strait in 70 minutes, departing every hour.",
+   "metadata": {
+    "entity": "Yarrowen"
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "q00",
+   "question": "In what year was the Quorvane Research Station founded?",
+   "answer": "1803",
+   "answerable": true,
+   "doc": "fact00"
+  },
+  {
+   "id": "q01",
+   "question": "How many minutes does the Ledrith Ferry Line crossing take?",
+   "answer": "63",
+   "answerable": true,
+   "doc": "fact01"
+  },
+  {
+   "id": "q02",
+   "question": "How tall, in metres, is the Saphelm Lighthouse?",
+   "answer": "71",
+   "answerable": true,
+   "doc": "fact02"
+  },
+  {
+   "id": "q03",
+   "question": "What is the founding member number of the Torvex Growers Cooperative?",
+   "answer": "5013",
+   "answerable": true,
+   "doc": "fact03"
+  },
+  {
+   "id": "q04",
+   "question": "In what year was the Brennac Research Station founded?",
+   "answer": "1810",
+   "answerable": true,
+   "doc": "fact04"
+  },
+  {
+   "id": "q05",
+   "question": "How many minutes does the Ulmora Ferry Line crossing take?",
+   "answer": "89",
+   "answerable": true,
+   "doc": "fact05"
+  },
+  {
+   "id": "q06",
+   "question": "How tall, in metres, is the Kestivar Lighthouse?",
+   "answer": "64",
+   "answerable": true,
+   "doc": "fact06"
+  },
+  {
+   "id": "q07",
+   "question": "What is the founding member number of the Drovane Growers Cooperative?",
+   "answer": "3974",
+   "answerable": true,
+   "doc": "fact07"
+  },
+  {
+   "id": "q08",
+   "question": "In what year was the Pellith Research Station founded?",
+   "answer": "1972",
+   "answerable": true,
+   "doc": "fact08"
+  },
+  {
+   "id": "q09",
+   "question": "How many minutes does the Zaramund Ferry Line crossing take?",
+   "answer": "84",
+   "answerable": true,
+   "doc": "fact09"
+  },
+  {
+   "id": "q10",
+   "question": "How tall, in metres, is the Oskeline Lighthouse?",
+   "answer": "29",
+   "answerable": true,
+   "doc": "fact10"
+  },
+  {
+   "id": "q11",
+   "question": "What is the founding member number of the Varnholt Growers Cooperative?",
+   "answer": "5871",
+   "answerable": true,
+   "doc": "fact11"
+  },
+  {
+   "id": "q12",
+   "question": "In what year was the Ithrane Research Station founded?",
+   "answer": "1960",
+   "answerable": true,
+   "doc": "fact12"
+  },
+  {
+   "id": "q13",
+   "question": "How many minutes does the Mosvale Ferry Line crossing take?",
+   "answer": "80",
+   "answerable": true,
+   "doc": "fact13"
+  },
+  {
+   "id": "q14",
+   "question": "How tall, in metres, is the Cardrel Lighthouse?",
+   "answer": "20",
+   "answerable": true,
+   "doc": "fact14"
+  },
+  {
+   "id": "q15",
+   "question": "What is the founding member number of the Fennoway Growers Cooperative?",
+   "answer": "6098",
+   "answerable": true,
+   "doc": "fact15"
+  },
+  {
+   "id": "q16",
+   "question": "In what year was the Gristal Research Station founded?",
+   "answer": "1964",
+   "answerable": true,
+   "doc": "fact16"
+  },
+  {
+   "id": "q17",
+   "question": "How many minutes does the Hollerin Ferry Line crossing take?",
+   "answer": "28",
+   "answerable": true,
+   "doc": "fact17"
+  },
+  {
+   "id": "q18",
+   "question": "How tall, in metres, is the Jasquith Lighthouse?",
+   "answer": "17",
+   "answerable": true,
+   "doc": "fact18"
+  },
+  {
+   "id": "q19",
+   "question": "What is the founding member number of the Lunderra Growers Cooperative?",
+   "answer": "5667",
+   "answerable": true,
+   "doc": "fact19"
+  },
+  {
+   "id": "q20",
+   "question": "In what year was the Norvast Research Station founded?",
+   "answer": "1986",
+   "answerable": true,
+   "doc": "fact20"
+  },
+  {
+   "id": "q21",
+   "question": "How many minutes does the Ombrel Ferry Line crossing take?",
+   "answer": "95",
+   "answerable": true,
+   "doc": "fact21"
+  },
+  {
+   "id": "q22",
+   "question": "How tall, in metres, is the Prestwyn Lighthouse?",
+   "answer": "36",
+   "answerable": true,
+   "doc": "fact22"
+  },
+  {
+   "id": "q23",
+   "question": "What is the founding member number of the Quillane Growers Cooperative?",
+   "answer": "2350",
+   "answerable": true,
+   "doc": "fact23"
+  },
+  {
+   "id": "q24",
+   "question": "In what year was the Rendalor Research Station founded?",
+   "answer": "1862",
+   "answerable": true,
+   "doc": "fact24"
+  },
+  {
+   "id": "q25",
+   "question": "How many minutes does the Sollebrin Ferry Line crossing take?",
+   "answer": "58",
+   "answerable": true,
+   "doc": "fact25"
+  },
+  {
+   "id": "q26",
+   "question": "How tall, in metres, is the Tavrick Lighthouse?",
+   "answer": "69",
+   "answerable": true,
+   "doc": "fact26"
+  },
+  {
+   "id": "q27",
+   "question": "What is the founding member number of the Umbreth Growers Cooperative?",
+   "answer": "6350",
+   "answerable": true,
+   "doc": "fact27"
+  },
+  {
+   "id": "q28",
+   "question": "In what year was the Wexcombe Research Station founded?",
+   "answer": "1874",
+   "answerable": true,
+   "doc": "fact28"
+  },
+  {
+   "id": "q29",
+   "question": "How many minutes does the Yarrowen Ferry Line crossing take?",
+   "answer": "70",
+   "answerable": true,
+   "doc": "fact29"
+  },
+  {
+   "id": "u00",
+   "question": "In what year was the Brimmeloch Research Station founded?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u01",
+   "question": "How many minutes does the Castavine Ferry Line crossing take?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u02",
+   "question": "How tall, in metres, is the Dunwhistle Lighthouse?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u03",
+   "question": "What is the founding member number of the Elvaro Growers Cooperative?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u04",
+   "question": "In what year was the Frostmere Research Station founded?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u05",
+   "question": "How many minutes does the Gavelholt Ferry Line crossing take?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u06",
+   "question": "How tall, in metres, is the Harrowind Lighthouse?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u07",
+   "question": "What is the founding member number of the Ivelstone Growers Cooperative?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u08",
+   "question": "In what year was the Jorvale Research Station founded?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  },
+  {
+   "id": "u09",
+   "question": "How many minutes does the Kelderby Ferry Line crossing take?",
+   "answer": null,
+   "answerable": false,
+   "doc": null
+  }
+ ]
+}
