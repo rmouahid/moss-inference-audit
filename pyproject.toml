@@ -1,6 +1,6 @@
 [project]
 name = "moss-inference-audit"
-version = "0.1.0"
+version = "1.0.0"
 description = "Reproducible audit of Moss Inference: Inference API latency/quality/contract and Tasks API limits"
 requires-python = ">=3.12"
 dependencies = [
