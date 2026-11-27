@@ -11,7 +11,6 @@ Run:  python benchmarks/inference/smoke.py
 from __future__ import annotations
 
 import asyncio
-import dataclasses
 import json
 import time
 import traceback
@@ -19,6 +18,7 @@ from typing import Any
 
 from mossaudit.client import MossHTTP
 from mossaudit.config import BASE_URL, RESULTS_PROCESSED, load_credentials
+from mossaudit.jsonsafe import json_safe
 from mossaudit.ledger import Ledger
 from mossaudit.prices import PRICES, definitive_refusal, token_cost, usage_tokens
 from mossaudit.runlog import RunLog
@@ -27,23 +27,6 @@ FL = "moss/fastlane-1"
 INSTR = "Reply with the single word OK."
 HDRS = {"X-Moss-Cache": "off", "X-Moss-Retrieve": "off"}
 RESERVE = 0.002
-
-
-def plain(obj: Any) -> Any:
-    """JSON-safe copy of SDK objects (pydantic models, nested dataclasses, plain objects)."""
-    if obj is None or isinstance(obj, str | int | float | bool):
-        return obj
-    if isinstance(obj, dict):
-        return {str(k): plain(v) for k, v in obj.items()}
-    if isinstance(obj, list | tuple):
-        return [plain(v) for v in obj]
-    if hasattr(obj, "model_dump"):
-        return plain(obj.model_dump())
-    if dataclasses.is_dataclass(obj) and not isinstance(obj, type):
-        return plain(dataclasses.asdict(obj))
-    if hasattr(obj, "__dict__"):
-        return plain(vars(obj))
-    return repr(obj)
 
 
 def _usage_cost(model: str | None, u: dict[str, Any] | None) -> float | None:
@@ -113,7 +96,7 @@ def main() -> None:
                 model = text = usage = rid = None
                 ok, err = False, "".join(traceback.format_exception_only(exc)).strip()[:500]
             ms = round((time.perf_counter() - t0) * 1000, 1)
-            usage = plain(usage)
+            usage = json_safe(usage)
             cost = book(name, model, usage, refused=False)  # book before anything that may fail
             row = {"path": name, "ok": ok, "model": model, "text": (text or "")[:40],
                    "total_ms": ms, "usage": usage, "request_id": rid, "cost_usd": cost,
@@ -132,14 +115,14 @@ def main() -> None:
         def oai_responses():
             r = oai.responses.create(model=FL, instructions=INSTR, input="Say OK.",
                                      max_output_tokens=16)
-            return r.model, r.output_text, plain(r.usage), None
+            return r.model, r.output_text, json_safe(r.usage), None
 
         def oai_chat():
             r = oai.chat.completions.create(
                 model=FL, max_tokens=16,
                 messages=[{"role": "system", "content": INSTR},
                           {"role": "user", "content": "Say OK."}])
-            return (r.model, r.choices[0].message.content, plain(r.usage), None)
+            return (r.model, r.choices[0].message.content, json_safe(r.usage), None)
 
         sdk("openai_sdk_responses", oai_responses)
         sdk("openai_sdk_chat", oai_chat)
@@ -153,7 +136,7 @@ def main() -> None:
                     r = await client.responses.create(
                         model=FL, instructions=INSTR, input="Say OK.", max_output_tokens=16)
                     return (getattr(r, "model", None), r.output_text,
-                            plain(getattr(r, "usage", None)),
+                            json_safe(getattr(r, "usage", None)),
                             getattr(r, "request_id", None))
 
             return asyncio.run(go())

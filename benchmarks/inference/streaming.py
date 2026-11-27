@@ -29,7 +29,7 @@ import json
 import time
 from typing import Any
 
-from mossaudit.client import MossHTTP
+from mossaudit.client import CallRecord, MossHTTP
 from mossaudit.config import RESULTS_PROCESSED, load_credentials
 from mossaudit.ledger import Ledger
 from mossaudit.prices import PRICES, definitive_refusal, token_cost, usage_tokens
@@ -74,7 +74,7 @@ CASES: list[tuple[str, str, dict[str, Any], bool]] = [
 ]
 
 
-def resp_grammar(rec: Any, terminal: str) -> list[str]:
+def resp_grammar(rec: CallRecord, terminal: str) -> list[str]:
     """Problems with a Responses stream's ordered events (empty list = conforms)."""
     ev = [f["t"] for f in rec.frames]
     probs = []
@@ -101,58 +101,59 @@ def resp_grammar(rec: Any, terminal: str) -> list[str]:
     return probs
 
 
-def check(name: str, rec: Any) -> tuple[bool | None, str]:
-    """Per-case contract check from the ordered per-frame metadata. None = observe only."""
-    fr = rec.frames
-    if name.startswith("chat_"):
-        probs = []
-        kinds = [f["t"] for f in fr]
-        if rec.stream_outcome != "done":
-            probs.append(f"outcome {rec.stream_outcome}")
-        if kinds.count("[DONE]") != 1 or kinds[-1:] != ["[DONE]"]:
-            probs.append(f"[DONE] not single and last ({kinds.count('[DONE]')}, last={kinds[-1:]})")
-        other = sorted({k for k in kinds if k not in ("chat.completion.chunk", "[DONE]")})
-        if other or any(f.get("error") for f in fr):
-            probs.append(f"non-chunk or error frames {other}")
-        if rec.error:
-            probs.append(f"transport error {rec.error[:80]}")
-        if not any((f.get("choices") or 0) > 0 for f in fr) or not rec.output_text:
-            probs.append("no reply chunk with text")
-        usage_at = [i for i, f in enumerate(fr) if f.get("usage")]
-        if name != "chat_usage_off" and usage_tokens(rec.usage) is None:
+def check_chat(name: str, rec: CallRecord) -> tuple[bool, str]:
+    """Check the reply chunks, final marker, and usage for a Chat case."""
+    frames = rec.frames
+    probs = []
+    kinds = [frame["t"] for frame in frames]
+    if rec.stream_outcome != "done":
+        probs.append(f"outcome {rec.stream_outcome}")
+    if kinds.count("[DONE]") != 1 or kinds[-1:] != ["[DONE]"]:
+        probs.append(f"[DONE] not single and last ({kinds.count('[DONE]')}, last={kinds[-1:]})")
+    other = sorted({kind for kind in kinds if kind not in ("chat.completion.chunk", "[DONE]")})
+    if other or any(frame.get("error") for frame in frames):
+        probs.append(f"non-chunk or error frames {other}")
+    if rec.error:
+        probs.append(f"transport error {rec.error[:80]}")
+    if not any((frame.get("choices") or 0) > 0 for frame in frames) or not rec.output_text:
+        probs.append("no reply chunk with text")
+    usage_at = [i for i, frame in enumerate(frames) if frame.get("usage")]
+    if name == "chat_usage_off":
+        if usage_at:
+            probs.append(f"usage chunks at {usage_at}")
+    else:
+        if usage_tokens(rec.usage) is None:
             probs.append(f"usage counts invalid: {str(rec.usage)[:80]}")
-        if name == "chat_usage_off":
-            if usage_at:
-                probs.append(f"usage chunks at {usage_at}")
-        elif not (len(usage_at) == 1 and fr[usage_at[0]]["choices"] == 0
-                  and usage_at[0] == len(fr) - 2):
+        if not (len(usage_at) == 1 and frames[usage_at[0]]["choices"] == 0
+                and usage_at[0] == len(frames) - 2):
             probs.append(f"usage chunks at {usage_at} "
-                         f"(choices={[fr[i]['choices'] for i in usage_at]}), frames={len(fr)}")
-        return not probs, "; ".join(probs) or "conforms"
-    b = rec.body if isinstance(rec.body, dict) else {}
-    if name == "resp_text":
-        probs = resp_grammar(rec, "response.completed")
-        return not probs, "; ".join(probs) or "conforms"
+                         f"(choices={[frames[i]['choices'] for i in usage_at]}), frames={len(frames)}")
+    return not probs, "; ".join(probs) or "conforms"
+
+
+def check_responses(name: str, rec: CallRecord) -> tuple[bool, str]:
+    """Check the event sequence and the cap or tool payload, when applicable."""
+    terminal = "response.incomplete" if name == "resp_capped" else "response.completed"
+    probs = resp_grammar(rec, terminal)
+    body = rec.body if isinstance(rec.body, dict) else {}
     if name == "resp_capped":
-        probs = resp_grammar(rec, "response.incomplete")
-        det = b.get("incomplete_details")
-        reason = det.get("reason") if isinstance(det, dict) else f"not an object: {det!r}"
+        details = body.get("incomplete_details")
+        reason = details.get("reason") if isinstance(details, dict) else f"not an object: {details!r}"
         if reason != "max_output_tokens":
             probs.append(f"reason={reason}")
-        return not probs, "; ".join(probs) or "conforms"
-    if name == "resp_tool":
-        probs = resp_grammar(rec, "response.completed")
-        idx = [(i, f) for i, f in enumerate(fr) if f["t"].startswith("response.function_call_arg")]
-        deltas = [(i, f) for i, f in idx if f["t"].endswith(".delta")]
-        dones = [(i, f) for i, f in idx if f["t"].endswith(".done")]
-        final = [it for it in (b.get("output") or [])
-                 if isinstance(it, dict) and it.get("type") == "function_call"]
+    elif name == "resp_tool":
+        argument_frames = [(i, frame) for i, frame in enumerate(rec.frames)
+                           if frame["t"].startswith("response.function_call_arg")]
+        deltas = [(i, frame) for i, frame in argument_frames if frame["t"].endswith(".delta")]
+        dones = [(i, frame) for i, frame in argument_frames if frame["t"].endswith(".done")]
+        final = [item for item in (body.get("output") or [])
+                 if isinstance(item, dict) and item.get("type") == "function_call"]
         if len(dones) != 1 or not deltas or max(i for i, _ in deltas) > dones[0][0]:
             probs.append(f"{len(deltas)} deltas / {len(dones)} done, order wrong")
         elif len(final) != 1:
             probs.append(f"{len(final)} final calls")
         else:
-            ids = {f.get("item_id") for _, f in idx} | {final[0].get("id")}
+            ids = {frame.get("item_id") for _, frame in argument_frames} | {final[0].get("id")}
             joined = "".join(str(f.get("delta") or "") for _, f in deltas)
             if len(ids) != 1 or not all(isinstance(x, str) and x for x in ids):
                 probs.append(f"item ids not one shared non-empty string {sorted(map(str, ids))}")
@@ -167,7 +168,17 @@ def check(name: str, rec: Any) -> tuple[bool | None, str]:
                              f"{final[0].get('arguments')!r}")
             if final[0].get("name") != "lookup_order":
                 probs.append(f"name {final[0].get('name')}")
-        return not probs, "; ".join(probs) or "conforms"
+    return not probs, "; ".join(probs) or "conforms"
+
+
+def check(name: str, rec: CallRecord) -> tuple[bool | None, str]:
+    """Check a protocol case or report whether the client closed the stream early."""
+    if rec.status != 200:
+        return False, f"HTTP {rec.status}"
+    if name.startswith("chat_"):
+        return check_chat(name, rec)
+    if name in ("resp_text", "resp_capped", "resp_tool"):
+        return check_responses(name, rec)
     if name == "early_stop":
         return rec.stream_outcome == "closed_early" and rec.n_text_deltas == 1, \
             f"outcome={rec.stream_outcome} deltas={rec.n_text_deltas} (client closure only)"

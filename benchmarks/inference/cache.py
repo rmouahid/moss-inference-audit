@@ -45,6 +45,14 @@ MAX_OUT = 24
 RESERVE = 0.001
 GAP_S = 1.0
 
+# The Chat request and the first cache-on request each start a new comparison.
+PRIMER_BY_STEP = {
+    "A2": "A1", "A3": "A1", "A4": "A1", "A5": "A1", "B": "A1",
+    "C2": "C1", "C3": "C1", "D2": "D1", "D3": "D1",
+    "E2": "E1", "E3": "E1", "E5": "E4",
+    "F2": "F1", "F3": "F1", "F4": "F3", "G5": "G4",
+}
+
 
 def main() -> None:
     creds = load_credentials()
@@ -144,12 +152,16 @@ def main() -> None:
             send(f"G{k + 1}", "/responses", base(n["n7"]), cache=False, cohort="n7")
         send("G4", "/responses", base(n["n7"]), cohort="n7")
         send("G5", "/responses", base(n["n7"]), cohort="n7")
-    firsts: dict[str, Any] = {}
-    for r in rows:
-        firsts.setdefault(r["cohort"], r["text"])
-        r["hit"] = bool(r["status"] == 200 and r["completed"] and r["text"]
-                        and r["input_tokens"] == 0)
-        r["same_text_as_cohort_first"] = r["text"] == firsts[r["cohort"]]
+    by_step = {row["step"]: row for row in rows}
+    for row in rows:
+        row["hit"] = bool(row["status"] == 200 and row["completed"] and row["text"]
+                          and row["input_tokens"] == 0)
+        primer_step = PRIMER_BY_STEP.get(row["step"])
+        primer = by_step.get(primer_step)
+        row["primer_step"] = primer_step
+        row["same_text_as_primer"] = (
+            row["text"] == primer["text"] if primer and primer["text"] and row["text"] else None
+        )
     RESULTS_PROCESSED.mkdir(parents=True, exist_ok=True)
     (RESULTS_PROCESSED / "inf05_cache.json").write_text(json.dumps(rows, indent=2))
     print("hits:", [r["step"] for r in rows if r["hit"]], "stopped:", stopped)

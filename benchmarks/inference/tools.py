@@ -21,7 +21,6 @@ Run:  python benchmarks/inference/tools.py
 from __future__ import annotations
 
 import asyncio
-import dataclasses
 import json
 import re
 import time
@@ -29,6 +28,7 @@ from typing import Any
 
 from mossaudit.client import MossHTTP
 from mossaudit.config import RESULTS_PROCESSED, load_credentials
+from mossaudit.jsonsafe import json_safe
 from mossaudit.ledger import Ledger
 from mossaudit.prices import PRICES, definitive_refusal, token_cost, usage_tokens
 from mossaudit.runlog import RunLog
@@ -177,20 +177,6 @@ def main() -> None:
             # The same loop through the Moss SDK (documented example), same validator.
             from moss import MossInference
 
-            def dump(x: Any) -> Any:
-                """JSON-safe copy of SDK objects (the installed SDK returns dataclasses)."""
-                if x is None or isinstance(x, str | int | float | bool):
-                    return x
-                if isinstance(x, dict):
-                    return {str(k): dump(v) for k, v in x.items()}
-                if isinstance(x, list | tuple):
-                    return [dump(v) for v in x]
-                if dataclasses.is_dataclass(x) and not isinstance(x, type):
-                    return dump(dataclasses.asdict(x))
-                if hasattr(x, "model_dump"):
-                    return dump(x.model_dump())
-                return repr(x)
-
             async def sdk_loop(p: dict[str, Any]) -> dict[str, Any]:
                 row: dict[str, Any] = {"p": p["id"], "path": "sdk", "expected_tool": p["tool"]}
                 async with MossInference(creds.project_id, creds.project_key, max_retries=0,
@@ -211,13 +197,13 @@ def main() -> None:
                             if getattr(exc, "status", None) == 429:  # moss InferenceError
                                 wait_or_stop(next_start, getattr(exc, "retry_after", None))
                             return row
-                        u = dump(getattr(resp, "usage", None))
+                        u = json_safe(getattr(resp, "usage", None))
                         toks = usage_tokens(u if isinstance(u, dict) else None)
                         ledger.charge("INF-09", token_cost(FL, *toks) if toks else RESERVE,
                                       key=key, usage_missing=not toks)
                         out = list(resp.output)
                         # validate/log the wire dict (.raw); replay the original items unchanged
-                        calls = [dump(getattr(i, "raw", None) or i) for i in out
+                        calls = [json_safe(getattr(i, "raw", None) or i) for i in out
                                  if getattr(i, "type", None) == "function_call"]
                         status = getattr(resp, "status", None)
                         log.note(case=p["id"], path="sdk", round=rnd, status=status,
