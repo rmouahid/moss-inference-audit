@@ -1,6 +1,6 @@
 """Tasks API harness: bounded create, poll with state-transition timing, cancel, cost ledger.
 
-Safety rules enforced here (Codex round 2):
+Safety rules enforced here:
 - Before a create is sent, a worst-case bound for the task is reserved in the ledger, and the
   Idempotency-Key + body are written to the raw log. An ambiguous create (transport error, 5xx, 408,
   429) is retried with the SAME key and body, so it can never start a second task.
@@ -42,7 +42,7 @@ OVERSHOOT_FACTOR = 1.5  # max_cost_usd is a target, not a documented hard stop
 
 
 class UnresolvedTask(RuntimeError):
-    pass
+    """A create may have reached Moss but its outcome is unknown; its reservation stays open."""
 
 
 def task_cost(task: dict[str, Any]) -> float | None:
@@ -105,6 +105,8 @@ def _has_usage(task: dict[str, Any]) -> bool:
 
 
 class TaskRunner:
+    """Creates, polls, cancels and books Tasks API runs under the ledger's budget rules."""
+
     def __init__(self, http: MossHTTP, ledger: Ledger, log: RunLog, campaign: str) -> None:
         self.http, self.ledger, self.log, self.campaign = http, ledger, log, campaign
         self.open: dict[str, str] = {}  # task_id -> ledger reservation key
@@ -123,6 +125,11 @@ class TaskRunner:
                tag: dict[str, Any] | None = None, idempotency_key: str | None = None,
                bound_usd: float | None = None, max_attempts: int = 3,
                idempotency_test: bool = False) -> CallRecord:
+        """Reserve the task's worst case, save the intent, then send the create.
+
+        An ambiguous outcome is retried with the same Idempotency-Key and body, up to
+        `max_attempts`; if still ambiguous, UnresolvedTask is raised and the hold stays open.
+        """
         if self.open:
             raise UnresolvedTask(f"refusing a new create while {list(self.open)} is unresolved")
         key = idempotency_key or f"audit-{uuid.uuid4()}"
@@ -160,7 +167,11 @@ class TaskRunner:
         project), so this never starts a second task. Only a returned task id clears the hold: any
         refusal on replay says nothing about the first attempt, so the hold is kept. Intents that are
         too old or belong to another project are not replayed; they and holds without an intent are
-        reported for a manual portal check (scripts/reconcile.py --after-portal-check)."""
+        reported for a manual portal check (scripts/reconcile.py --after-portal-check), and so are
+        intents of the deliberate idempotency test (I1), which are never resent.
+
+        Returns {"recovered", "kept", "manual"}. A recovered task may still be running: it is back
+        in `self.open`, and the caller must `wait()` on it before creating another task."""
         report: dict[str, Any] = {"recovered": [], "kept": [], "manual": []}
         intents = {i["hold"]: i for i in _load_intents()}
         for hold in self.ledger.open_holds("task-create:"):
@@ -259,12 +270,14 @@ class TaskRunner:
     # --- read / cancel -------------------------------------------------------------------------
     def get(self, task_id: str, tag: dict[str, Any] | None = None,
             timeout_s: float | None = None) -> CallRecord:
+        """GET /tasks/{id} and log it."""
         rec = self.http.call("GET", f"/tasks/{task_id}", tag=tag or {}, timeout_s=timeout_s)
         self.log.call(rec)
         return rec
 
     def cancel(self, task_id: str, tag: dict[str, Any] | None = None,
                timeout_s: float | None = None) -> CallRecord:
+        """POST /tasks/{id}/cancel and log it."""
         rec = self.http.call("POST", f"/tasks/{task_id}/cancel", tag=tag or {}, timeout_s=timeout_s)
         self.log.call(rec)
         if rec.status == 200 and isinstance(rec.body, dict) and rec.body.get("id") == task_id:
@@ -284,31 +297,41 @@ class TaskRunner:
 
         Without a reported cost the full create hold stays until a manual reconciliation."""
         task_id = task["id"]
-        key = self.open.pop(task_id, None)
+        key = self.open.get(task_id)
         if key is None:
             return
         if task_id in self.settled:  # a second hold on an already settled task (replay)
             self.ledger.release(key, note=f"{task_id} already settled", task_id=task_id)
+            del self.open[task_id]
             return
-        self.settled.add(task_id)
         if not _has_usage(task):
-            self.needs_reconcile.append(task_id)
-            self.log.note(event="task_settled_without_cost", task_id=task_id, hold_kept=key)
             # Re-key so later creates are not blocked, but the money stays held.
             new_key = f"unpriced:{task_id}"
-            self.ledger.swap(self.campaign, key, new_key, self.bounds[task_id])
+            if not self.ledger.swap(self.campaign, key, new_key, self.bounds[task_id]):
+                self.log.note(event="settle_swap_refused", task_id=task_id, hold_kept=key)
+                return  # runner state unchanged: the task stays open with its create hold
+            self.needs_reconcile.append(task_id)
+            self.log.note(event="task_settled_without_cost", task_id=task_id, hold_kept=new_key)
             # Keep the hold tied to the task, so costs already observed are not counted twice.
             seen = self.ledger.state()["tasks"].get(task_id, 0.0)
             self.ledger.task_snapshot(self.campaign, task_id, seen, key=new_key,
                                       status=task.get("status"))
+        elif not self.ledger.swap(self.campaign, key, f"traffic:{task_id}", TRAFFIC_ALLOWANCE_USD):
+            self.log.note(event="settle_swap_refused", task_id=task_id, hold_kept=key)
             return
-        self.ledger.swap(self.campaign, key, f"traffic:{task_id}", TRAFFIC_ALLOWANCE_USD)
+        del self.open[task_id]
+        self.settled.add(task_id)
 
     # --- wait ----------------------------------------------------------------------------------
     def wait(self, task_id: str, poll_s: float = 3.0, max_wait_s: float = 900,
              cancel_after_s: float | None = None, cancel_on_status: str | None = None
              ) -> dict[str, Any]:
-        """Poll until terminal. Returns the last task body plus `_trace` (status transitions)."""
+        """Poll until terminal. Returns the last task body plus `_trace` (status transitions).
+
+        At `max_wait_s` the task is cancelled once, then polled for up to 120 s more. If it is still
+        not terminal, the last body is returned and the task stays unresolved with its hold (check
+        `task_id in runner.open`). A terminal task is booked and settled as a side effect: its
+        create hold is swapped for a small traffic hold (see `_settle`)."""
         t0 = time.monotonic()
         give_up = max_wait_s + 120
         trace: list[dict[str, Any]] = []

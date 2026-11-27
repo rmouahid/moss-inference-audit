@@ -9,24 +9,34 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parents[2]
+load_dotenv(ROOT / ".env")  # before any setting below is read
+
 RESULTS_RAW = ROOT / "results" / "raw"
-RESULTS_PROCESSED = ROOT / "results" / "processed"
-FIGURES = ROOT / "results" / "figures"
+# Benchmarks write their summaries to results/reruns/ (git-ignored), so a rerun never overwrites
+# the published results in results/processed/. Set MOSS_AUDIT_PUBLISH=1 to write there on purpose.
+RESULTS_PROCESSED = ROOT / "results" / (
+    "processed" if os.environ.get("MOSS_AUDIT_PUBLISH") == "1" else "reruns")
 LEDGER_PATH = ROOT / "results" / "ledger.jsonl"
 
 BASE_URL = "https://inference.moss.dev/v1"
 
-# Hard cap agreed with the account owner: $8 of the $10 sign-up credits.
-BUDGET_CAP_USD = float(os.environ.get("MOSS_BUDGET_CAP_USD", "8.0"))
+
+
+def budget_cap_usd() -> float:
+    """Spending cap for the ledger: MOSS_BUDGET_CAP_USD, default $8 of the $10 sign-up credits."""
+    return float(os.environ.get("MOSS_BUDGET_CAP_USD", "8.0"))
 
 
 @dataclass(frozen=True)
 class Credentials:
+    """Moss project id and key, read from `.env`. Never logged."""
+
     project_id: str
     project_key: str
 
     @property
     def bearer(self) -> str:
+        """Value for `Authorization: Bearer ...` (`project_id:project_key`)."""
         return f"{self.project_id}:{self.project_key}"
 
 

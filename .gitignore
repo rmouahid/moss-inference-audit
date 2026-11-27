@@ -11,3 +11,4 @@ internal/
 results/raw/
 results/ledger.jsonl
 results/task_intents.jsonl
+results/reruns/

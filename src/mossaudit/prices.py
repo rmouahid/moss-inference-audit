@@ -16,6 +16,8 @@ TASK_TRAFFIC_USD_PER_GB = 5.0
 
 @dataclass(frozen=True)
 class Price:
+    """Documented per-model prices, in USD per 1M tokens."""
+
     input: float  # USD per 1M tokens
     cached_input: float
     output: float
