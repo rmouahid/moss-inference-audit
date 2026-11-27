@@ -147,15 +147,10 @@ def test_done_on_responses_is_not_a_clean_end():
     assert rec.stream_outcome == "unexpected_done"
 
 
-def test_smoke_plain_serializes_nested_sdk_objects():
+def test_json_safe_serializes_nested_sdk_objects():
     import dataclasses
-    import importlib.util
-    import pathlib
 
-    spec = importlib.util.spec_from_file_location(
-        "smoke", pathlib.Path(__file__).parents[2] / "benchmarks/inference/smoke.py")
-    smoke = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(smoke)
+    from mossaudit.jsonsafe import json_safe
 
     @dataclasses.dataclass
     class Details:
@@ -167,7 +162,7 @@ def test_smoke_plain_serializes_nested_sdk_objects():
         output_tokens: int
         input_tokens_details: Details
 
-    out = smoke.plain(Usage(3, 1, Details(0)))
+    out = json_safe(Usage(3, 1, Details(0)))
     json.dumps(out)
     assert out["input_tokens_details"] == {"cached_tokens": 0}
 
@@ -181,3 +176,13 @@ def test_chat_stream_model_is_kept():
     with MossHTTP(None, transport=transport) as c:
         rec = c.call("POST", "/chat/completions", {"stream": True})
     assert rec.model == "moss/fastlane-1" and rec.stream_outcome == "done"
+
+
+def test_output_text_survives_malformed_bodies():
+    from mossaudit.client import _output_text
+
+    assert _output_text({"output": [{"type": "message", "content": 42}]}) == ""
+    assert _output_text({"output": [{"type": "message",
+                                     "content": [{"type": "output_text", "text": None}]}]}) == ""
+    assert _output_text({"output": "oops"}) == ""
+    assert _output_text({"object": "chat.completion", "choices": [{"message": "x"}]}) == ""
