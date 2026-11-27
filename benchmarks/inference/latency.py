@@ -49,7 +49,7 @@ QUESTIONS = [
 ]
 INSTRUCTIONS = "You are a concise assistant. Answer in one short sentence."
 # With --index, both arms ask the fixture's answerable questions (INF-08 data), so the grounded arm
-# has something to retrieve and the pair differs only by X-Moss-Retrieve (Codex r8).
+# has something to retrieve and the pair differs only by X-Moss-Retrieve.
 _FIX = json.loads((Path(__file__).resolve().parent / "data/fictional_facts.json").read_text())
 FIXTURE_QS = [(q["id"], q["question"]) for q in _FIX["questions"] if q["answerable"]]
 

@@ -1,6 +1,6 @@
 {
  "index": "audit-facts",
- "note": "All entities, places and numbers are invented for this audit (seed 20261125); none can be known by a model in advance. fact28 changed from 1862 to 1874 (Codex r8) so every answer value is unique.",
+ "note": "All entities, places and numbers are invented for this audit (seed 20261125); none can be known by a model in advance. fact28 changed from 1862 to 1874 so every answer value is unique.",
  "documents": [
   {
    "id": "fact00",

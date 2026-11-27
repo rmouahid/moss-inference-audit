@@ -88,10 +88,13 @@ def parse(text: str | None) -> dict[str, Any] | None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--limit", type=int, help="first N questions only (dry runs)")
+    ap.add_argument("--limit", type=int,
+                    help="first N questions only, for a small PAID pilot (each question = 2 calls)")
     ap.add_argument("--seed", type=int, default=8)
     ap.add_argument("--min-interval", type=float, default=1.0)
     a = ap.parse_args()
+    if a.limit is not None and a.limit < 1:
+        ap.error("--limit must be at least 1 (omit it to run all 40 questions)")
     data = json.loads(DATA.read_text())
     qs = data["questions"][: a.limit] if a.limit else data["questions"]
     plan = [(q, arm) for q in qs for arm in ("grounded", "plain")]
