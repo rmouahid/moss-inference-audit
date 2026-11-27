@@ -1,5 +1,6 @@
 """Offline tests of stats, prices, ledger reservations and the Tasks safety rules (MOCK, no network)."""
 
+import json
 import math
 
 import httpx
@@ -9,6 +10,7 @@ from mossaudit.client import MossHTTP
 from mossaudit.ledger import BudgetExceeded, Ledger
 from mossaudit.prices import token_cost
 from mossaudit.stats import percentile, wilson
+from scripts.analyze_latency import run_summary
 
 
 def test_percentile_matches_numpy_linear():
@@ -20,6 +22,30 @@ def test_percentile_matches_numpy_linear():
 def test_wilson_bounds():
     lo, hi = wilson(50, 100)
     assert 0.40 < lo < 0.41 and 0.59 < hi < 0.60
+
+
+def test_latency_pairs_within_model_and_reads_chat_usage(tmp_path):
+    records = [{"type": "run_meta", "run_id": "mock", "started_utc": "2026-11-25", "params": {}}]
+    for model, grounded, ttft in [
+        ("fastlane", False, 100), ("haiku", True, 500),
+        ("fastlane", True, 150), ("haiku", False, 300),
+    ]:
+        records.append({
+            "type": "call", "status": 200, "stream_outcome": "done",
+            "t_first_token_ms": ttft, "t_end_ms": ttft + 10, "headers": {},
+            "tag": {"unit": 0, "model": model, "ctx": 0, "prefix": "repeat", "grounded": grounded},
+            "usage": {"prompt_tokens": 12, "completion_tokens": 1,
+                      "prompt_tokens_details": {"cached_tokens": 6}},
+        })
+    log = tmp_path / "latency.jsonl"
+    log.write_text("\n".join(json.dumps(record) for record in records))
+
+    summary = run_summary(log)
+    paired = summary["paired_grounded_minus_plain_ms"]
+    assert (paired["n"], paired["min"], paired["p50"], paired["max"]) == (2, 50, 125, 200)
+    for condition in summary["conditions"]:
+        assert condition["input_tokens"]["p50"] == 12
+        assert condition["cached_tokens"] == [6]
 
 
 def test_token_cost_fastlane():
@@ -107,7 +133,8 @@ def test_late_definitive_refusal_after_ambiguity_keeps_hold(tmp_path, monkeypatc
     from mossaudit import tasks
 
     monkeypatch.setattr(tasks.time, "sleep", lambda s: None)
-    replies = iter([httpx.Response(503, json={}), httpx.Response(401, json={})])
+    replies = iter([httpx.Response(503, json={}),
+                    httpx.Response(401, json={"error": {"code": "authentication_error"}})])
     runner, led = _runner(tmp_path, lambda r: next(replies))
     with pytest.raises(tasks.UnresolvedTask):
         runner.create({"goal": "g"})
@@ -403,3 +430,24 @@ def test_replay_definitive_refusal_releases(tmp_path, monkeypatch):
     runner, led, _ = _replay_runner(tmp_path, monkeypatch, [first, refused])
     runner.replay(b'{"goal": "other"}', "k-idem", "task_1", 0.07, {})
     assert len(led.open_holds("task-create:")) == 1
+
+
+def test_unpriced_settle_with_unrounded_bound_frees_create_gate(tmp_path, monkeypatch):
+    """A $0.01 / 60 s bound has more than 8 decimals; settling must still re-key the hold."""
+    from mossaudit import tasks
+
+    monkeypatch.setattr(tasks.time, "sleep", lambda s: None)
+
+    def handler(req):
+        if req.method == "POST":
+            return httpx.Response(202, json={"id": "task_9", "status": "queued"})
+        return httpx.Response(200, json={"id": "task_9", "status": "completed"})
+
+    runner, led = _runner(tmp_path, handler)
+    body = {"goal": "g", "limits": {"max_cost_usd": 0.01, "max_runtime_seconds": 60}}
+    runner.create(body)
+    runner.wait("task_9", poll_s=1, max_wait_s=30)
+    holds = led.open_holds()
+    assert list(holds) == ["unpriced:task_9"]  # no task-create: hold left to block the next create
+    assert not runner.open
+    assert runner.needs_reconcile == ["task_9"]

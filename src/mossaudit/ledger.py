@@ -24,11 +24,11 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
-from .config import BUDGET_CAP_USD, LEDGER_PATH
+from .config import LEDGER_PATH, budget_cap_usd
 
 
 class BudgetExceeded(RuntimeError):
-    pass
+    """A reservation would push exposure above the cap; nothing was sent."""
 
 
 class HoldBlocked(RuntimeError):
@@ -43,9 +43,16 @@ def _amount(usd: float) -> float:
 
 
 class Ledger:
-    def __init__(self, path: Path = LEDGER_PATH, cap_usd: float = BUDGET_CAP_USD) -> None:
+    """File-locked, append-only record of reservations and costs (see the module docstring).
+
+    Three amounts matter: settled dollars (charges + task costs), open holds not yet covered by a
+    task cost, and exposure = their sum, which is what the cap is checked against. The lock is a
+    POSIX `flock` on the ledger file, so it protects processes on one machine only.
+    """
+
+    def __init__(self, path: Path = LEDGER_PATH, cap_usd: float | None = None) -> None:
         self.path = path
-        self.cap = _amount(cap_usd)
+        self.cap = _amount(budget_cap_usd() if cap_usd is None else cap_usd)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.path.touch(exist_ok=True)
 
@@ -66,6 +73,7 @@ class Ledger:
         return rows
 
     def state(self) -> dict[str, Any]:
+        """Recompute charges, task costs, open reservations and total exposure from the file."""
         charges = 0.0
         reserves: dict[str, float] = {}
         task_obs: dict[str, float] = {}
@@ -133,27 +141,30 @@ class Ledger:
                     f"{campaign}: exposure ${exp:.4f} + reserve ${usd:.4f} > cap ${self.cap:.2f}")
             self._append({"kind": "reserve", "campaign": campaign, "key": key, "usd": round(usd, 8)})
 
-    def swap(self, campaign: str, old_key: str, new_key: str, usd: float) -> None:
+    def swap(self, campaign: str, old_key: str, new_key: str, usd: float) -> bool:
         """Replace one hold by a smaller one in a single locked step (no window without a hold).
 
         Used when a task ends: its create hold becomes a traffic hold. If the new hold would be larger
-        than the old one, the old one is kept and nothing changes."""
-        usd = _amount(usd)
+        than the old one, the old one is kept, nothing changes and False is returned."""
+        usd = round(_amount(usd), 8)  # holds are stored rounded to 8 decimals: compare like with like
         with self._locked():
             st = self.state()
             holds = st["open_reservations"]
             if new_key in holds or new_key in st["ever_reserved"]:
                 raise ValueError(f"reservation key {new_key} is already open or was used before")
-            if usd > holds.get(old_key, 0.0):
-                return
+            if usd > round(holds.get(old_key, 0.0), 8):
+                return False
             self._append({"kind": "reserve", "campaign": campaign, "key": new_key,
                           "usd": round(usd, 8)})
             self._append({"kind": "release", "key": old_key})
+            return True
 
     def open_holds(self, prefix: str = "") -> dict[str, float]:
+        """Open reservations whose key starts with `prefix`, as {key: usd}."""
         return {k: v for k, v in self.state()["open_reservations"].items() if k.startswith(prefix)}
 
     def release(self, key: str, **evidence: object) -> None:
+        """Close a reservation; `evidence` is stored with the row."""
         with self._locked():
             self._append({"kind": "release", "key": key, **evidence})
 
@@ -167,16 +178,11 @@ class Ledger:
 
     def task_snapshot(self, campaign: str, task_id: str, usd: float, key: str | None = None,
                       **extra: object) -> None:
+        """Record the cumulative cost of a task; only the highest snapshot per task counts."""
         usd = _amount(usd)
         with self._locked():
             self._append({"kind": "task", "campaign": campaign, "task_id": task_id,
                           "usd": round(usd, 8), "key": key, **extra})
-
-    # Backwards-compatible name used by older scripts: a plain settled charge.
-    def record(self, campaign: str, usd: float, **extra: object) -> None:
-        with self._locked():
-            self._append({"kind": "charge", "campaign": campaign, "usd": round(_amount(usd), 8),
-                          **extra})
 
     # --- checks --------------------------------------------------------------------------------
     def guard(self, estimate_usd: float, campaign: str) -> None:
@@ -189,6 +195,3 @@ class Ledger:
         print(f"[budget] {campaign}: exposure ${exp:.4f}, estimate ${estimate_usd:.4f}, "
               f"cap ${self.cap}")
 
-    def check(self, campaign: str, reserve_usd: float = 0.0) -> None:
-        if self.spent() + _amount(reserve_usd) > self.cap:
-            raise BudgetExceeded(f"{campaign}: cap ${self.cap:.2f} reached")

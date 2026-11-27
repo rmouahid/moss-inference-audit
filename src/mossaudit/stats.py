@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import math
-import random
 from collections.abc import Sequence
 
 
@@ -15,18 +14,6 @@ def percentile(xs: Sequence[float], q: float) -> float:
     k = (len(s) - 1) * q / 100
     lo, hi = math.floor(k), math.ceil(k)
     return s[lo] + (s[hi] - s[lo]) * (k - lo)
-
-
-def bootstrap_ci(
-    xs: Sequence[float], q: float, n_boot: int = 2000, alpha: float = 0.05, seed: int = 0
-) -> tuple[float, float]:
-    """Percentile-bootstrap confidence interval of the q-th percentile."""
-    if len(xs) < 2:
-        return (math.nan, math.nan)
-    rng = random.Random(seed)
-    n = len(xs)
-    est = sorted(percentile([xs[rng.randrange(n)] for _ in range(n)], q) for _ in range(n_boot))
-    return (est[int(n_boot * alpha / 2)], est[int(n_boot * (1 - alpha / 2)) - 1])
 
 
 def wilson(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
@@ -41,6 +28,7 @@ def wilson(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
 
 
 def summary(xs: Sequence[float]) -> dict[str, float]:
+    """n, mean, sd, min, p50, p90, p95 and max of the non-missing values in `xs`."""
     xs = [x for x in xs if x is not None and not math.isnan(x)]
     if not xs:
         return {"n": 0}

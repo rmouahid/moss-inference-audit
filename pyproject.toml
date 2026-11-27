@@ -23,7 +23,7 @@ ignore = ["PYI034"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["paid: calls the real Moss API and spends credits (skipped unless MOSS_PAID_TESTS=1)"]
+pythonpath = ["."]
 
 [build-system]
 requires = ["hatchling"]
