@@ -46,6 +46,7 @@ are labelled as such where they are used.
 - [`findings/inference.md`](findings/inference.md): INF-A1 to INF-A6, plus the positive results.
 - [`findings/tasks.md`](findings/tasks.md): TSK-A1 to TSK-A6, plus the limitations confirmed as
   documented.
+- [`findings/portal.md`](findings/portal.md): hands-on notes on signup and the task page.
 
 Each card has the same fields: classification, severity, confidence, repro, expected, observed,
 evidence (log file and request ids), impact, suspected cause, proposed fix, regression test and
