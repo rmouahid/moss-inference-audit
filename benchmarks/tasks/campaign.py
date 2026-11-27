@@ -9,7 +9,7 @@ reserves task_bound(body) first; cancels and waits are bounded (see mossaudit.ta
 
 Cases (run with --cases, default: all in this order)
   TSK-02 ladder   L1_fast, L1_balanced   one fact on one page (UPC of "Sharp Objects")
-                  L2_fast                one fact among 11 distractors (price of one Travel title)
+                  L2_fast                one fact among 10 distractors (price of one of 11 Travel titles)
                   L3_fast, L3_balanced   three facts on one page (UPC, stock count, reviews)
                   L4_fast                2-hop navigation from the home page (Poetry -> a book -> UPC)
                   L5_fast                count across 2 pages (Mystery books priced over 50.00)
@@ -19,11 +19,13 @@ Cases (run with --cases, default: all in this order)
   TSK-04          C1_fast                max_cost_usd 0.01 on a long goal: stop code and overshoot
   TSK-05/12       T1_fast                max_runtime_seconds 60 on a long goal: real runtime vs cap;
                                          files listed WHILE running (expect 409 task_not_finished)
+                  T2_fast                same 60 s cap on a 4-category goal, to actually hit the cap
   TSK-06'         X1_fast                cancel once `running` is seen: cancel latency, final cost
                   X2                     cancel of an already finished task (L1_fast): unchanged?
   TSK-07'         I1                     same Idempotency-Key + body replayed (same id, header),
                                          same key + other body (422), concurrent duplicate pair
-  TSK-12          files are listed and one file downloaded after every finished task.
+  TSK-12          after a task finishes, its files are listed and the first listed file (if any)
+                  is downloaded.
   TSK-14          billing arithmetic is checked offline from the saved rows (analysis step).
 
 Run:  python benchmarks/tasks/campaign.py [--cases L1_fast L2_fast ...]
@@ -74,6 +76,7 @@ def page(url: str, expect_status: int = 200) -> str:
 
 
 def book_url(category_path: str, title: str) -> str:
+    """URL of the book with this exact title on a category listing page."""
     h = page(B + category_path)
     for href, t in re.findall(r'<h3><a href="([^"]+)" title="([^"]+)"', h):
         if htmlmod.unescape(t) == title:
@@ -82,10 +85,12 @@ def book_url(category_path: str, title: str) -> str:
 
 
 def table(url: str) -> dict[str, str]:
+    """The product information table of a book page, as {header: value}."""
     return {k: v.strip() for k, v in re.findall(r"<th>([^<]+)</th>\s*<td>([^<]+)</td>", page(url))}
 
 
 def listing(url: str) -> list[tuple[str, str]]:
+    """(title, price) pairs of a category listing page, in page order."""
     h = page(url)
     titles = [htmlmod.unescape(t) for t in re.findall(r'<h3><a href="[^"]+" title="([^"]+)"', h)]
     prices = re.findall(r'<p class="price_color">([^<]+)</p>', h)
@@ -100,7 +105,8 @@ LONG_GOAL = ("Open every book in the Mystery category, on all of its pages, one 
              "each book's title and UPC.")
 
 
-def S(props: dict[str, Any]) -> dict[str, Any]:
+def object_schema(props: dict[str, Any]) -> dict[str, Any]:
+    """Strict JSON schema for an object whose listed properties are all required."""
     return {"type": "object", "properties": props, "required": list(props),
             "additionalProperties": False}
 
@@ -112,7 +118,10 @@ NULLSTR = {"type": ["string", "null"]}
 def build_cases() -> dict[str, dict[str, Any]]:
     sharp = book_url(MYSTERY, "Sharp Objects")
     t_sharp = table(sharp)
-    stock = int(re.search(r"\((\d+) available\)", t_sharp["Availability"]).group(1))  # type: ignore[union-attr]
+    in_stock = re.search(r"\((\d+) available\)", t_sharp.get("Availability", ""))
+    if not in_stock:
+        raise SystemExit("fixture changed: Sharp Objects has no '(N available)' stock line")
+    stock = int(in_stock.group(1))
     travel = listing(B + TRAVEL)
     see_title, see_price = next((t, p) for t, p in travel if t.startswith("See America"))
     maria = book_url(POETRY, "The Black Maria")
@@ -127,9 +136,9 @@ def build_cases() -> dict[str, dict[str, Any]]:
     attic = B + "catalogue/a-light-in-the-attic_1000/index.html"
     missing = B + "catalogue/this-book-does-not-exist_9999/index.html"
     page(missing, expect_status=404)
-    page(attic)  # fixture hash only (ISBN absence is checked by reading the table: no ISBN row)
+    attic_html = page(attic)  # also records the page hash
     t_attic = table(attic)
-    if "UPC" not in t_attic or any("isbn" in k.lower() for k in t_attic) or "ISBN" in page(attic):
+    if "UPC" not in t_attic or any("isbn" in k.lower() for k in t_attic) or "ISBN" in attic_html:
         raise SystemExit("fixture changed: attic table missing or it now shows an ISBN")
 
     def base(model: str, goal: str, url: str, schema: dict[str, Any] | None,
@@ -141,34 +150,34 @@ def build_cases() -> dict[str, dict[str, Any]]:
             b["output_schema"] = schema
         return b
 
-    l1 = ("Report this book's UPC exactly as shown on the page.", sharp, S({"upc": STR}),
+    l1 = ("Report this book's UPC exactly as shown on the page.", sharp, object_schema({"upc": STR}),
           {"upc": t_sharp["UPC"]})
     l3 = (("Report this book's UPC, the number of copies in stock and the number of reviews, "
            "exactly as shown on the page."), sharp,
-          S({"upc": STR, "in_stock": INT, "reviews": INT}),
+          object_schema({"upc": STR, "in_stock": INT, "reviews": INT}),
           {"upc": t_sharp["UPC"], "in_stock": stock, "reviews": int(t_sharp["Number of reviews"])})
     c: dict[str, dict[str, Any]] = {}
     for m in ("fast", "balanced"):
         c[f"L1_{m}"] = {"body": base(f"moss-{m}", l1[0], l1[1], l1[2]), "truth": l1[3]}
         c[f"L3_{m}"] = {"body": base(f"moss-{m}", l3[0], l3[1], l3[2]), "truth": l3[3]}
     c["L2_fast"] = {"body": base("moss-fast", f'Report the price of the book titled "{see_title}" '
-                                 "exactly as shown on this page.", B + TRAVEL, S({"price": STR})),
+                                 "exactly as shown on this page.", B + TRAVEL, object_schema({"price": STR})),
                     "truth": {"price": see_price}}
     c["L4_fast"] = {"body": base("moss-fast", 'Go to the Poetry category, open the book "The Black '
                                  "Maria\" and report its UPC exactly as shown.", B + "index.html",
-                                 S({"upc": STR}), runtime=180),
+                                 object_schema({"upc": STR}), runtime=180),
                     "truth": {"upc": table(maria)["UPC"]}}
     c["L5_fast"] = {"body": base("moss-fast", "How many books in the Mystery category cost more "
                                  "than £50.00? The category has more than one page; check all of "
-                                 "them.", B + MYSTERY, S({"count": INT}), runtime=240),
+                                 "them.", B + MYSTERY, object_schema({"count": INT}), runtime=240),
                     "truth": {"count": over50}}
     c["A1_fast"] = {"body": base("moss-fast", "Report this book's ISBN. If the page does not show an "
                                  "ISBN, set isbn to null and found to false. Do not guess.", attic,
-                                 S({"isbn": NULLSTR, "found": {"type": "boolean"}})),
+                                 object_schema({"isbn": NULLSTR, "found": {"type": "boolean"}})),
                     "truth": {"isbn": None, "found": False}}
     c["F1_fast"] = {"body": base("moss-fast", "Report this book's UPC. If the page has no book, set "
                                  "upc to null and found to false. Do not guess.", missing,
-                                 S({"upc": NULLSTR, "found": {"type": "boolean"}})),
+                                 object_schema({"upc": NULLSTR, "found": {"type": "boolean"}})),
                     "truth": {"upc": None, "found": False}}
     for r in ("R1_fast", "R2_fast"):
         c[r] = {"body": base("moss-fast", l1[0], l1[1], l1[2]), "truth": l1[3]}
@@ -378,9 +387,16 @@ def idempotency(runner: TaskRunner, ledger: Ledger, case: dict[str, Any]) -> dic
         t.start()
     for t in ths:
         t.join(timeout=120)
+    if any(t.is_alive() for t in ths):
+        # A send may still be in flight. Wait for it (each HTTP step has its own timeout) before
+        # stopping, so no worker writes to the log or the runner after the run is closed.
+        runner.log.note(event="i1_pair_slow_worker")
+        for t in ths:
+            t.join()
+        row["stopped"] = "pair worker was slow; holds kept, run recover()"
+        raise UnresolvedTask("I1 pair: a worker did not finish within 120 s")
+    # Each send was already logged by runner.replay(); the coordinator only reads the results.
     recs = [r for r in results if isinstance(r, CallRecord)]
-    for r in recs:
-        runner.log.call(r)
     ids = [r.body.get("id") if isinstance(r.body, dict) else None for r in recs]
     row["pair"] = {"http": [r.status for r in recs], "ids": ids,
                    "replayed": [r.headers.get("idempotent-replayed") for r in recs],

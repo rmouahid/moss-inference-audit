@@ -66,7 +66,11 @@ def main() -> None:
         rec = runner.create(body, tag={"case": "smoke"})
         print(f"create: http {rec.status} t_headers={rec.t_headers_ms}ms "
               f"replayed={rec.headers.get('idempotent-replayed')} body={str(rec.body)[:200]}")
-        task_id = rec.body["id"]
+        task_id = rec.body.get("id") if isinstance(rec.body, dict) else None
+        if rec.status not in (200, 201, 202) or not task_id:
+            # A refused create is a result too: it is already in the raw log, so stop cleanly.
+            log.note(event="create_refused", status=rec.status, body=rec.body)
+            raise SystemExit(f"create refused: http {rec.status} {str(rec.body)[:200]}")
         final = runner.wait(task_id, poll_s=3, max_wait_s=180)
         files = runner.http.call("GET", f"/tasks/{task_id}/files", tag={"files": True})
         log.call(files)
@@ -74,8 +78,8 @@ def main() -> None:
     row = {
         "task_id": task_id, "status": final.get("status"), "error": final.get("error"),
         "truth": truth, "output": out, "output_text": (final.get("result") or {}).get("output_text"),
-        "upc_correct": out.get("upc", "").strip() == truth["upc"],
-        "price_correct": out.get("price", "").strip() == truth["price"],
+        "upc_correct": str(out.get("upc") or "").strip() == truth["upc"],
+        "price_correct": str(out.get("price") or "").strip() == truth["price"],
         "verification": final.get("verification"), "usage": final.get("usage"),
         "cost_usd": task_cost(final), "trace": final.get("_trace"),
         "files_http": files.status, "files": files.body,
