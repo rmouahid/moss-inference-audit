@@ -3,8 +3,9 @@
   python scripts/reconcile.py                       # print settled spend, open holds, tasks
   python scripts/reconcile.py --release traffic:task_x [--portal-usd 0.012 --note "Usage 14:05Z"]
 
-`--portal-usd` books the amount the portal shows for that item (a settled charge) when it is not
-already covered by the task's own snapshot; the hold is then released.
+`--portal-usd` books the extra amount the portal shows for that one item (for example the traffic
+charge of one task) as a settled charge, then releases its hold. It takes exactly one --release key,
+so one portal amount can never be booked several times.
 """
 
 from __future__ import annotations
@@ -22,6 +23,8 @@ def main() -> None:
     ap.add_argument("--note", default="")
     ap.add_argument("--after-portal-check", action="store_true")
     a = ap.parse_args()
+    if a.portal_usd is not None and len(a.release) != 1:
+        raise SystemExit("--portal-usd needs exactly one --release key (the item that amount is for)")
     led = Ledger()
     for key in a.release:
         if key not in led.open_holds():

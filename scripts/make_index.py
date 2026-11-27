@@ -3,9 +3,10 @@
 Uses the documented quickstart path (`MossClient.create_index(name, docs, "moss-minilm")`). The data is
 ~3 KB of invented facts; Moss Retrieval ingest is $0.03/MB (docs), so we book a $0.01 allowance in the
 ledger and reconcile it with the portal later. Refuses to touch an index that already exists.
+There is deliberately no delete option: an index with the same name may not be ours. Delete it by
+hand in the portal once you have checked it is the one this script created.
 
-Run:  python scripts/make_index.py            (create)
-      python scripts/make_index.py --delete   (remove it at the end of the audit)
+Run:  python scripts/make_index.py
 """
 
 from __future__ import annotations
@@ -27,23 +28,14 @@ ALLOWANCE = 0.01
 
 
 async def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--delete", action="store_true")
-    a = ap.parse_args()
+    argparse.ArgumentParser(description="Create the audit-facts index.").parse_args()  # no options
     data = json.loads(DATA.read_text())
     name = data["index"]
     creds = load_credentials()
     client = MossClient(creds.project_id, creds.project_key)
-    with RunLog("index_" + ("delete" if a.delete else "create"), {"index": name}) as log:
+    with RunLog("index_create", {"index": name}) as log:
         existing = [getattr(i, "name", None) for i in await client.list_indexes()]
         log.note(existing_indexes_count=len(existing), audit_index_existed=name in existing)
-        if a.delete:
-            if name not in existing:
-                raise SystemExit(f"{name} does not exist")
-            ok = await client.delete_index(name)
-            log.note(deleted=ok)
-            print(f"deleted {name}: {ok}")
-            return
         if name in existing:
             raise SystemExit(f"{name} already exists; not overwriting")
         ledger = Ledger()
